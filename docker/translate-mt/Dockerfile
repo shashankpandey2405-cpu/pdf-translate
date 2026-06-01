@@ -6,10 +6,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+# Railway build context = repo root (see railway.translate.toml)
+COPY docker/translate-mt/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY download_models.py main.py ./
+COPY docker/translate-mt/download_models.py docker/translate-mt/main.py ./
 RUN python download_models.py
 
 ENV ARGOS_SKIP_MODEL_DOWNLOAD=1
