@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-05-18T12:44:14.322Z",
+  "patterns": {
+    "stripe_checkout": [],
+    "lemon_webhook": [],
+    "chat_pdf": [],
+    "paymentsConfig": [],
+    "PricingCtaButton": [],
+    "server_auth": [],
+    "HomeToolGrid": [],
+    "chart_ui": [],
+    "worker_folder": [],
+    "agentLog": []
+  },
+  "dirs": {
+    "worker": false,
+    "backendService": true,
+    "HomeToolGrid": false
+  }
+}

@@ -1,0 +1,3 @@
+# Google AdSense — replace google.com, pub-XXXXXXXX with your publisher ID from AdSense dashboard.
+# Example: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+# Leave this file empty or remove lines until you enable ads.

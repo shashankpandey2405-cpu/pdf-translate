@@ -1,0 +1,183 @@
+{
+  "generatedAt": "2026-05-29T20:59:27.551Z",
+  "totalClientJsBytes": 20153287,
+  "largestChunk": {
+    "name": "vendor-opencv.03e1b9dab1b9ba2a.js",
+    "bytes": 10789099
+  },
+  "largestInitialChunk": {
+    "name": "e99863e0.a05733626279f80a.js",
+    "bytes": 1351634
+  },
+  "largestAsyncVendor": {
+    "name": "vendor-opencv.03e1b9dab1b9ba2a.js",
+    "bytes": 10789099
+  },
+  "topChunks": [
+    {
+      "name": "vendor-opencv.03e1b9dab1b9ba2a.js",
+      "bytes": 10789099
+    },
+    {
+      "name": "e99863e0.a05733626279f80a.js",
+      "bytes": 1351634
+    },
+    {
+      "name": "2258-f1b5fa99808d4892.js",
+      "bytes": 601771
+    },
+    {
+      "name": "vendor-pdfjs.63ac17fcdcdc7fb6.js",
+      "bytes": 505539
+    },
+    {
+      "name": "3318.33e686da4bdb73bc.js",
+      "bytes": 491731
+    },
+    {
+      "name": "app/[locale]/[[...path]]/page-99fc4e7ecdf8fb23.js",
+      "bytes": 442733
+    },
+    {
+      "name": "3502-d2b97093dbe8bfc8.js",
+      "bytes": 441484
+    },
+    {
+      "name": "main-3453bd40006ef141.js",
+      "bytes": 422042
+    },
+    {
+      "name": "vendor-xlsx.421f132afb7e18dc.js",
+      "bytes": 412603
+    },
+    {
+      "name": "164f4fb6.79485f6397c139c2.js",
+      "bytes": 329998
+    },
+    {
+      "name": "vendor-fabric.065cd275d7ebe5ec.js",
+      "bytes": 293645
+    },
+    {
+      "name": "vendor-pdf-lib.86a9c6eb6e5ced3b.js",
+      "bytes": 223540
+    },
+    {
+      "name": "3990.66ec25b7da20635a.js",
+      "bytes": 205813
+    },
+    {
+      "name": "7586.8b63275730d5f504.js",
+      "bytes": 198441
+    },
+    {
+      "name": "ad2866b8.64370e7a243e27c4.js",
+      "bytes": 198193
+    },
+    {
+      "name": "4bd1b696-100b9d70ed4e49c1.js",
+      "bytes": 173025
+    },
+    {
+      "name": "framework-b9fd9bcc3ecde907.js",
+      "bytes": 139850
+    },
+    {
+      "name": "52774a7f-ec3612088c55f48c.js",
+      "bytes": 119964
+    },
+    {
+      "name": "polyfills-42372ed130431b0a.js",
+      "bytes": 112594
+    },
+    {
+      "name": "vendor-mupdf.caba85e5727e6bc4.js",
+      "bytes": 94457
+    }
+  ],
+  "totalPageRoutes": 47,
+  "topPages": [
+    {
+      "route": "/api/account-reset-password/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/account-register/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/account-forgot-password/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/ai/chat/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/ai/image-session/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/auth/[...slug]/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/ai/session/[jobId]/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/checkout/paypal/return/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/checkout/session/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/ai/translate-snippet/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/credits/balance/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/credits/history/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/credits/estimate/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/debug/agent-log/route",
+      "files": 0,
+      "bytes": 0
+    },
+    {
+      "route": "/api/cron/r2-staging-purge/route",
+      "files": 0,
+      "bytes": 0
+    }
+  ],
+  "polyfillBytes": 0,
+  "budgets": {
+    "totalClientJsBytes": 20971520,
+    "largestChunkBytes": 6291456
+  },
+  "phase": "baseline",
+  "note": "Initial mega-chunk baseline"
+}

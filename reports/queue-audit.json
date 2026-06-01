@@ -1,0 +1,22 @@
+{
+  "at": "2026-05-17T23:12:13.879Z",
+  "health": {
+    "ok": true,
+    "qaMode": false,
+    "checks": {
+      "redis": true,
+      "s3": true,
+      "supabaseServiceRole": true,
+      "workerSecret": true,
+      "callbackUrl": true
+    },
+    "bucket": "pdftrusted",
+    "queueDepth": {
+      "ocr": 0,
+      "docx": 0,
+      "compress": 0
+    }
+  },
+  "warnings": [],
+  "ok": true
+}

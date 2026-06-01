@@ -1,0 +1,13 @@
+export { DesktopTopNav } from "@/components/desktop/DesktopTopNav";
+export { DesktopMegaMenu } from "@/components/desktop/DesktopMegaMenu";
+export { DesktopMiniSidebar } from "@/components/desktop/DesktopMiniSidebar";
+export { GlassPanel } from "@/components/desktop/GlassPanel";
+export { ProcessingPipeline } from "@/components/desktop/ProcessingPipeline";
+export { SmartNextActions } from "@/components/desktop/SmartNextActions";
+export { MasterToolWorkspace } from "@/components/desktop/master/MasterToolWorkspace";
+export { GenericToolDesktopAdapter } from "@/components/desktop/adapters/GenericToolDesktopAdapter";
+export { CompressDesktopAdapter } from "@/components/desktop/adapters/CompressDesktopAdapter";
+export { getToolDesktopMeta } from "@/lib/desktop/toolMeta";
+export { isDesktopToolRoute } from "@/lib/desktop/isDesktopToolRoute";
+export { normalizeToolStage } from "@/lib/desktop/types";
+export { DesktopToolStepPanel } from "@/components/desktop/wizard/DesktopToolStepPanel";

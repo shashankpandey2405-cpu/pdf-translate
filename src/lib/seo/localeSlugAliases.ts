@@ -1,0 +1,186 @@
+import type { LocaleCode } from "@/lib/seo/site";
+import { isLocaleCode } from "@/lib/seo/site";
+
+/**
+ * Locale-specific URL slugs for programmatic SEO (native search keywords).
+ * Browser URL keeps the alias; middleware rewrites to the canonical tool route.
+ */
+export const LOCALE_SEO_SLUG_ALIASES: Partial<Record<LocaleCode, Record<string, string>>> = {
+  en: {
+    "ai-document-scanner": "smart-scan-ai",
+    "photo-to-editable-pdf": "smart-scan-ai",
+    "scan-to-editable-pdf": "smart-scan-ai",
+    "image-to-editable-pdf": "smart-scan-ai",
+  },
+  es: {
+    "unir-pdf": "merge-pdf",
+    "combinar-pdf": "merge-pdf",
+    "comprimir-pdf": "compress-pdf",
+    "reducir-pdf": "compress-pdf",
+    "dividir-pdf": "split-pdf",
+    "separar-pdf": "split-pdf",
+    "convertir-pdf-a-word": "pdf-to-word",
+    "pdf-a-word": "pdf-to-word",
+    "word-a-pdf": "word-to-pdf",
+    "convertir-word-a-pdf": "word-to-pdf",
+    "editor-pdf": "pdf-editor",
+    "editar-pdf": "pdf-editor",
+    "firmar-pdf": "sign-pdf",
+    "ocr-pdf-online": "ocr-pdf",
+    "proteger-pdf": "protect-pdf",
+    "desbloquear-pdf": "unlock-pdf",
+    "pdf-a-jpg": "pdf-to-image",
+    "jpg-a-pdf": "jpg-to-pdf",
+    "marca-de-agua-pdf": "watermark-pdf",
+  },
+  fr: {
+    "fusionner-pdf": "merge-pdf",
+    "compresser-pdf": "compress-pdf",
+    "reduire-pdf": "compress-pdf",
+    "diviser-pdf": "split-pdf",
+    "convertir-pdf-en-word": "pdf-to-word",
+    "pdf-en-word": "pdf-to-word",
+    "word-en-pdf": "word-to-pdf",
+    "editeur-pdf": "pdf-editor",
+    "signer-pdf": "sign-pdf",
+    "ocr-pdf-en-ligne": "ocr-pdf",
+    "proteger-pdf": "protect-pdf",
+    "deverrouiller-pdf": "unlock-pdf",
+    "pdf-en-jpg": "pdf-to-image",
+    "filigrane-pdf": "watermark-pdf",
+  },
+  de: {
+    "pdf-zusammenfuegen": "merge-pdf",
+    "pdf-verbinden": "merge-pdf",
+    "pdfs-zusammenfuegen": "merge-pdf",
+    "pdf-dateien-zusammenfuegen": "merge-pdf",
+    "pdf-zusammenfuegen-kostenlos": "merge-pdf",
+    "pdf-komprimieren": "compress-pdf",
+    "pdf-verkleinern": "compress-pdf",
+    "pdf-komprimieren-online": "compress-pdf",
+    "pdf-datei-verkleinern": "compress-pdf",
+    "pdf-teilen": "split-pdf",
+    "pdf-aufteilen": "split-pdf",
+    "pdf-zu-word": "pdf-to-word",
+    "pdf-in-word-umwandeln": "pdf-to-word",
+    "word-zu-pdf": "word-to-pdf",
+    "word-in-pdf-umwandeln": "word-to-pdf",
+    "pdf-bearbeiten": "pdf-editor",
+    "pdf-online-bearbeiten": "pdf-editor",
+    "pdf-signieren": "sign-pdf",
+    "pdf-unterschreiben": "sign-pdf",
+    "pdf-ocr": "ocr-pdf",
+    "pdf-text-erkennen": "ocr-pdf",
+    "pdf-schuetzen": "protect-pdf",
+    "pdf-passwort-setzen": "protect-pdf",
+    "pdf-entsperren": "unlock-pdf",
+    "pdf-passwort-entfernen": "unlock-pdf",
+    "pdf-zu-jpg": "pdf-to-image",
+    "pdf-in-jpg": "pdf-to-image",
+    "wasserzeichen-pdf": "watermark-pdf",
+    "pdf-drehen": "rotate-pdf",
+    "pdf-kombinieren": "merge-pdf",
+    "ilovepdf-alternative-de": "merge-pdf",
+    "smallpdf-alternative-de": "compress-pdf",
+  },
+  hi: {
+    "pdf-merge": "merge-pdf",
+    "pdf-jodna": "merge-pdf",
+    "pdf-milana": "merge-pdf",
+    "pdf-ek-karna": "merge-pdf",
+    "pdf-files-merge": "merge-pdf",
+    "pdf-compress": "compress-pdf",
+    "pdf-size-kam": "compress-pdf",
+    "pdf-compress-karna": "compress-pdf",
+    "pdf-ghatana": "compress-pdf",
+    "pdf-split": "split-pdf",
+    "pdf-kaatna": "split-pdf",
+    "pdf-to-word-hindi": "pdf-to-word",
+    "pdf-word-mein": "pdf-to-word",
+    "pdf-se-word": "pdf-to-word",
+    "word-to-pdf-hindi": "word-to-pdf",
+    "word-se-pdf": "word-to-pdf",
+    "doc-pdf-banaye": "word-to-pdf",
+    "pdf-editor-hindi": "pdf-editor",
+    "pdf-edit-karna": "pdf-editor",
+    "pdf-sign": "sign-pdf",
+    "pdf-par-sign": "sign-pdf",
+    "pdf-dastakhat": "sign-pdf",
+    "pdf-ocr-hindi": "ocr-pdf",
+    "pdf-ocr-online": "ocr-pdf",
+    "pdf-text-nikalo": "ocr-pdf",
+    "pdf-lock": "protect-pdf",
+    "pdf-password-lagaye": "protect-pdf",
+    "pdf-unlock": "unlock-pdf",
+    "pdf-kholna": "unlock-pdf",
+    "pdf-to-jpg-hindi": "pdf-to-image",
+    "pdf-photo-banaye": "pdf-to-image",
+    "pdf-watermark-hindi": "watermark-pdf",
+    "pdf-rotate-hindi": "rotate-pdf",
+    "ilovepdf-alternative-hindi": "merge-pdf",
+    "smallpdf-free-hindi": "compress-pdf",
+    "ai-document-scanner": "smart-scan-ai",
+    "photo-se-editable-pdf": "smart-scan-ai",
+    "scan-editable-pdf": "smart-scan-ai",
+  },
+  zh: {
+    "hebing-pdf": "merge-pdf",
+    "merge-pdf-free": "merge-pdf",
+    "yasuo-pdf": "compress-pdf",
+    "compress-pdf-online": "compress-pdf",
+    "chaifen-pdf": "split-pdf",
+    "pdf-zhuan-word": "pdf-to-word",
+    "word-zhuan-pdf": "word-to-pdf",
+    "pdf-bianji": "pdf-editor",
+    "pdf-qianming": "sign-pdf",
+  },
+  ar: {
+    "دمج-pdf": "merge-pdf",
+    "ضغط-pdf": "compress-pdf",
+    "تقسيم-pdf": "split-pdf",
+    "تحويل-pdf-الى-word": "pdf-to-word",
+    "توقيع-pdf": "sign-pdf",
+  },
+};
+
+const aliasIndex = new Map<string, string>();
+
+for (const [locale, map] of Object.entries(LOCALE_SEO_SLUG_ALIASES)) {
+  if (!map) continue;
+  for (const [alias, canonical] of Object.entries(map)) {
+    aliasIndex.set(`${locale}/${alias}`, canonical);
+  }
+}
+
+/** Public path segment(s) after locale → canonical tool slug/path (no leading slash). */
+export function resolveCanonicalToolPath(locale: string, pathAfterLocale: string): string | null {
+  if (!pathAfterLocale) return null;
+  const key = `${locale}/${pathAfterLocale}`;
+  return aliasIndex.get(key) ?? null;
+}
+
+/** True if this locale+path is an SEO alias (not the canonical slug). */
+export function isLocaleSeoAlias(locale: string, pathAfterLocale: string): boolean {
+  return resolveCanonicalToolPath(locale, pathAfterLocale) !== null;
+}
+
+/** First native alias for a canonical slug, else canonical slug (for links/sitemap preference). */
+export function getPreferredLocaleToolSlug(locale: LocaleCode, canonicalSlug: string): string {
+  const map = LOCALE_SEO_SLUG_ALIASES[locale];
+  if (!map) return canonicalSlug;
+  for (const [alias, canonical] of Object.entries(map)) {
+    if (canonical === canonicalSlug) return alias;
+  }
+  return canonicalSlug;
+}
+
+export function getAllSeoAliasPaths(): Array<{ locale: LocaleCode; alias: string; canonical: string }> {
+  const out: Array<{ locale: LocaleCode; alias: string; canonical: string }> = [];
+  for (const [locale, map] of Object.entries(LOCALE_SEO_SLUG_ALIASES)) {
+    if (!isLocaleCode(locale) || !map) continue;
+    for (const [alias, canonical] of Object.entries(map)) {
+      out.push({ locale, alias, canonical });
+    }
+  }
+  return out;
+}

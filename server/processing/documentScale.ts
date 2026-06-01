@@ -1,0 +1,15 @@
+export {
+  PLATFORM,
+  assessDocumentScale,
+  buildPageBatches,
+  maxFileBytesForPath,
+  maxPagesForTool,
+  pagesPerBatchForTool,
+  uploadStrategyForFile,
+  type DocumentScaleAssessment,
+  type DocumentScaleInput,
+  type DocumentSizeTier,
+  type PageBatch,
+  type ProcessingPath,
+  type UploadStrategy,
+} from "@/lib/processing/documentScale";

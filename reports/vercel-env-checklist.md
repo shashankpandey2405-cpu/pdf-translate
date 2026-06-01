@@ -1,0 +1,17 @@
+# Vercel env checklist
+
+Generated: 2026-05-18
+
+See `docs/DEPLOY-ENV.md` for full list.
+
+## Required
+- NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_ENHANCED_ENABLED
+- NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+- UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
+- S3_* (R2), RENDER_WORKER_SECRET, ENHANCED_CALLBACK_URL
+
+## Optional
+- Sentry, GA, Resend, CRON_SECRET, PDFTRUSTED_QA_SECRET (internal trace API)
+
+## Not used
+Stripe, Lemon, OpenAI, Gemini, legacy Auth.js

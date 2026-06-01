@@ -1,0 +1,162 @@
+{
+  "at": "2026-05-19T10:52:29.318Z",
+  "missingCritical": 1,
+  "urlMismatch": false,
+  "groups": [
+    {
+      "title": "Next / auth (public)",
+      "keys": [
+        {
+          "key": "NEXT_PUBLIC_SUPABASE_URL",
+          "st": "SET"
+        },
+        {
+          "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "st": "SET"
+        },
+        {
+          "key": "NEXT_PUBLIC_ENHANCED_ENABLED",
+          "st": "SET"
+        },
+        {
+          "key": "NEXT_PUBLIC_APP_URL",
+          "st": "SET"
+        },
+        {
+          "key": "NEXTAUTH_URL",
+          "st": "SET"
+        },
+        {
+          "key": "AUTH_URL",
+          "st": "SET"
+        }
+      ]
+    },
+    {
+      "title": "Next / server secrets",
+      "keys": [
+        {
+          "key": "SUPABASE_SERVICE_ROLE_KEY",
+          "st": "SET"
+        },
+        {
+          "key": "AUTH_SECRET",
+          "st": "SET"
+        },
+        {
+          "key": "NEXTAUTH_SECRET",
+          "st": "SET"
+        }
+      ]
+    },
+    {
+      "title": "Enhanced cloud",
+      "keys": [
+        {
+          "key": "REDIS_URL",
+          "st": "MISSING"
+        },
+        {
+          "key": "UPSTASH_REDIS_REST_URL",
+          "st": "SET"
+        },
+        {
+          "key": "UPSTASH_REDIS_REST_TOKEN",
+          "st": "SET"
+        },
+        {
+          "key": "S3_ENDPOINT",
+          "st": "SET"
+        },
+        {
+          "key": "S3_REGION",
+          "st": "SET"
+        },
+        {
+          "key": "S3_BUCKET",
+          "st": "SET"
+        },
+        {
+          "key": "S3_ACCESS_KEY_ID",
+          "st": "SET"
+        },
+        {
+          "key": "S3_SECRET_ACCESS_KEY",
+          "st": "SET"
+        },
+        {
+          "key": "RENDER_WORKER_SECRET",
+          "st": "SET"
+        },
+        {
+          "key": "ENHANCED_CALLBACK_URL",
+          "st": "SET"
+        },
+        {
+          "key": "ENHANCED_DAILY_LIMIT",
+          "st": "SET"
+        },
+        {
+          "key": "ENHANCED_IP_DAILY_LIMIT",
+          "st": "MISSING"
+        },
+        {
+          "key": "ENHANCED_QUEUE_MAX_DEPTH",
+          "st": "SET"
+        }
+      ]
+    },
+    {
+      "title": "Vercel cron / ops",
+      "keys": [
+        {
+          "key": "CRON_SECRET",
+          "st": "SET"
+        }
+      ]
+    },
+    {
+      "title": "Railway workers",
+      "keys": [
+        {
+          "key": "WORKER_POOL",
+          "st": "MISSING"
+        }
+      ]
+    },
+    {
+      "title": "Internal QA (never production)",
+      "keys": [
+        {
+          "key": "PDFTRUSTED_QA_MODE",
+          "st": "MISSING"
+        },
+        {
+          "key": "NEXT_PUBLIC_PDFTRUSTED_QA_MODE",
+          "st": "MISSING"
+        },
+        {
+          "key": "PDFTRUSTED_QA_SECRET",
+          "st": "MISSING"
+        }
+      ]
+    },
+    {
+      "title": "Legacy / optional",
+      "keys": [
+        {
+          "key": "LEGACY_AUTH_ENABLED",
+          "st": "SET"
+        },
+        {
+          "key": "AUTH_SECRET",
+          "st": "SET"
+        },
+        {
+          "key": "NEXTAUTH_SECRET",
+          "st": "SET"
+        }
+      ]
+    }
+  ]
+}

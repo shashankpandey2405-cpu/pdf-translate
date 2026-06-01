@@ -1,0 +1,48 @@
+# ============================================================
+# PDFTrusted — Cloudflare Worker local dev secrets
+# ------------------------------------------------------------
+# Copy this file to `.dev.vars` (gitignored) and fill in real values.
+# `wrangler dev` reads .dev.vars and injects each line as an env binding
+# for the local Worker. .env.local is NOT read by the Worker — it's only
+# used by Vite for VITE_* values consumed by the SPA at build/dev time.
+# ============================================================
+
+# --- Auth.js / Google OAuth -------------------------------------------------
+# Google Cloud Console — Authorized JavaScript origins:
+#   https://www.pdftrusted.com
+#   http://localhost:3000
+#   http://localhost:3001
+# Authorized redirect URIs:
+#   https://www.pdftrusted.com/api/auth/callback/google
+#   http://localhost:3000/api/auth/callback/google
+#   http://localhost:3001/api/auth/callback/google
+AUTH_GOOGLE_ID="PASTE_CLIENT_ID_FROM_GOOGLE.apps.googleusercontent.com"
+AUTH_GOOGLE_SECRET="PASTE_CLIENT_SECRET_FROM_GOOGLE"
+# Generate with: openssl rand -base64 32
+AUTH_SECRET="PASTE_RANDOM_BASE64_32_STRING"
+NEXTAUTH_SECRET="PASTE_SAME_AS_AUTH_SECRET"
+# Local: Vite on :3000 (browser). Worker: `wrangler dev --port 3001` so Vite can proxy /api → :3001.
+AUTH_URL="http://localhost:3000"
+NEXTAUTH_URL="http://localhost:3000"
+
+# --- S3-compatible R2 credentials (presigned uploads) -----------------------
+# These are NOT the same as the native R2 binding. They authorize the @aws-sdk
+# client used in worker/lib/s3.ts to sign PUT URLs that the browser uses directly.
+# Create them under R2 -> Manage R2 API Tokens in the Cloudflare dashboard.
+S3_ACCESS_KEY_ID="PASTE_R2_ACCESS_KEY_ID"
+S3_SECRET_ACCESS_KEY="PASTE_R2_SECRET_ACCESS_KEY"
+
+# --- Email (Resend) — optional ---------------------------------------------
+RESEND_API_KEY=""
+AUTH_EMAIL_FROM=""
+
+# --- Sentry (optional) ------------------------------------------------------
+SENTRY_DSN=""
+
+# --- Public free suite (matches wrangler [vars]) ------------------------------
+PUBLIC_FREE_SUITE="true"
+
+# --- PayPal (optional — Next.js handles webhooks in production) ---------------
+PAYPAL_CLIENT_ID=""
+PAYPAL_CLIENT_SECRET=""
+PAYPAL_WEBHOOK_ID=""

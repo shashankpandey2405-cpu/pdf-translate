@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-05-30T23:35:57.975Z",
+  "baseUrl": "http://localhost:3000",
+  "deployGate": {
+    "performance": 70,
+    "accessibility": 85,
+    "bestPractices": 85,
+    "seo": 90
+  },
+  "stretchGoal": {
+    "performance": 90,
+    "accessibility": 90,
+    "bestPractices": 90,
+    "seo": 90,
+    "lcpMs": 2500,
+    "tbtMs": 200,
+    "cls": 0.1
+  },
+  "targets": [
+    {
+      "id": "home",
+      "url": "http://localhost:3000/en",
+      "error": "lighthouse exited 1 for http://localhost:3000/en",
+      "passDeploy": false,
+      "passStretch": false,
+      "pass": false
+    },
+    {
+      "id": "compress",
+      "url": "http://localhost:3000/en/compress-pdf",
+      "error": "lighthouse exited 1 for http://localhost:3000/en/compress-pdf",
+      "passDeploy": false,
+      "passStretch": false,
+      "pass": false
+    },
+    {
+      "id": "resume",
+      "url": "http://localhost:3000/en/resume-builder",
+      "error": "lighthouse exited 1 for http://localhost:3000/en/resume-builder",
+      "passDeploy": false,
+      "passStretch": false,
+      "pass": false
+    },
+    {
+      "id": "merge",
+      "url": "http://localhost:3000/en/merge-pdf",
+      "error": "lighthouse exited 1 for http://localhost:3000/en/merge-pdf",
+      "passDeploy": false,
+      "passStretch": false,
+      "pass": false
+    }
+  ],
+  "note": "Set LIGHTHOUSE_BASE_URL for production runs. Server must be reachable.",
+  "deployGatePass": false
+}

@@ -1,0 +1,560 @@
+{
+  "nav": {
+    "home": "होम",
+    "download": "डाउनलोड",
+    "tools": "टूल्स",
+    "login": "लॉगिन",
+    "apk": "APK",
+    "language": "भाषा",
+    "pdfEditor": "PDF एडिटर",
+    "resources": {
+      "about": "हमारे बारे में",
+      "privacy": "गोपनीयता नीति",
+      "terms": "सेवा की शर्तें",
+      "cookies": "कुकी नीति",
+      "disclaimer": "अस्वीकरण",
+      "faq": "FAQ",
+      "howTo": "कैसे उपयोग करें"
+    }
+  },
+  "layout": {
+    "infoCenter": "PDFTrusted सूचना केंद्र",
+    "aboutLink": "PDFTrusted के बारे में",
+    "privacyLink": "गोपनीयता नीति",
+    "termsLink": "सेवा की शर्तें",
+    "cookieLink": "कुकी नीति",
+    "disclaimerLink": "अस्वीकरण",
+    "faqLink": "FAQ",
+    "howToLink": "कैसे उपयोग करें"
+  },
+  "heroTitle": "PDFTrusted के साथ प्रो-लेवल डॉक्यूमेंट मैनेजमेंट पाएं",
+  "heroSubtitle": "सुरक्षित, तेज़ और भरोसेमंद PDF टूल्स।",
+  "allTools": "सभी PDF टूल्स",
+  "featuredTools": "लोकप्रिय टूल्स",
+  "whyChoose": "PDFTrusted.com क्यों चुनें",
+  "allToolsPageTitle": "सभी PDF टूल्स",
+  "allToolsPageSubtitle": "श्रेणी के अनुसार सभी टूल्स ब्राउज़ करें।",
+  "home": {
+    "heroPill": "ब्राउज़र-आधारित · बिना अपलोड · हमेशा मुफ्त",
+    "seoTitle": "PDFTrusted — AI-संचालित PDF टूल्स | मर्ज, कंप्रेस, कन्वर्ट मुफ्त",
+    "seoDescription": "AI-संचालित मुफ्त PDF टूल्स: मर्ज, कंप्रेस, OCR, ट्रांसलेट करें। 30+ टूल्स, कोई साइन-अप नहीं।",
+    "openEditor": "PDF एडिटर खोलें",
+    "liveEditor": "लाइव PDF एडिटर",
+    "new": "नया",
+    "liveEditorDesc": "टेक्स्ट जोड़ें, ड्रॉ करें, हाइलाइट करें और तुरंत संपादन करें।",
+    "openEditorShort": "एडिटर खोलें",
+    "useFree": "मुफ्त उपयोग करें",
+    "trustEncryption": "HTTPS सुरक्षित",
+    "trustGdpr": "गोपनीयता-केंद्रित डिज़ाइन",
+    "trustNoLogging": "कोई कंटेंट लॉगिंग नहीं",
+    "hero": {
+      "eyebrow": "AI-संचालित डॉक्यूमेंट प्लेटफॉर्म",
+      "titleSimple": "आपके डॉक्यूमेंट्स।",
+      "titleHighlight": "बुद्धिमानी से प्रोसेस किए गए।",
+      "subtitleSimple": "AI प्रिसिज़न के साथ PDF मर्ज, कंप्रेस, कन्वर्ट, OCR और साइन करें। प्राइवेसी के लिए ब्राउज़र-फर्स्ट।",
+      "searchPlaceholder": "टूल्स खोजें — मर्ज, कंप्रेस, OCR, ट्रांसलेट...",
+      "ctaMerge": "PDF मर्ज करें",
+      "ctaCompress": "PDF कंप्रेस करें",
+      "ctaOcr": "OCR PDF"
+    },
+    "ai": {
+      "eyebrow": "AI-संचालित टूल्स",
+      "title": "बुद्धिमत्ता डॉक्यूमेंट्स से मिलती है",
+      "subtitle": "उन्नत AI मॉडल्स का उपयोग करके किसी भी PDF से सारांश, अनुवाद, चैट और इनसाइट्स निकालें।"
+    },
+    "useCases": {
+      "eyebrow": "सभी के लिए बनाया गया",
+      "title": "हर भूमिका के लिए PDF वर्कफ़्लो",
+      "subtitle": "चाहे आप छात्र हों, वकील, बिजनेस प्रोफेशनल या डेवलपर — हमारे पास सही टूल्स हैं।",
+      "students": { "title": "छात्र और शिक्षाविद", "desc": "लेक्चर नोट्स मर्ज करें, असाइनमेंट कंप्रेस करें, रिसर्च पेपर सारांशित करें।" },
+      "legal": { "title": "कानूनी और अनुपालन", "desc": "फॉर्म फ्लैटन करें, कॉन्ट्रैक्ट वर्जन तुलना करें, डॉक्यूमेंट साइन करें।" },
+      "business": { "title": "बिजनेस और एंटरप्राइज़", "desc": "ईमेल के लिए रिपोर्ट कंप्रेस करें, प्रपोजल कन्वर्ट करें, वॉटरमार्क लगाएं।" },
+      "developers": { "title": "डेवलपर्स और IT", "desc": "डॉक्यूमेंट वर्कफ़्लो ऑटोमेट करें, OCR से टेक्स्ट निकालें, बल्क में प्रोसेस करें।" }
+    },
+    "stats": {
+      "tools": "PDF टूल्स",
+      "formats": "फ़ाइल फ़ॉर्मेट्स",
+      "aiModels": "AI मॉडल्स",
+      "languages": "भाषाएं"
+    }
+  },
+  "footer": {
+    "description": "तेज़, मुफ्त और सुरक्षित PDF टूल्स।",
+    "organize": "व्यवस्थित करें",
+    "optimize": "ऑप्टिमाइज़ करें",
+    "convert": "कन्वर्ट करें",
+    "company": "कंपनी",
+    "secure": "गोपनीयता-केंद्रित",
+    "browserBased": "ब्राउज़र आधारित",
+    "privateProcessing": "निजी प्रोसेसिंग",
+    "joinTitle": "हमारे वैश्विक समुदाय से जुड़ें",
+    "joinDesc": "अपडेट्स और नए टूल्स की जानकारी पाएं।",
+    "joinCta": "जुड़ें"
+  },
+  "pdfEditor": {
+    "closePanels": "पैनल बंद करें",
+    "toolsHeading": "टूल्स",
+    "color": "रंग",
+    "stroke": "स्ट्रोक — {{width}} px",
+    "fontSizeLabel": "फ़ॉन्ट साइज़ — {{size}} pt",
+    "bold": "बोल्ड",
+    "italic": "इटैलिक",
+    "customColor": "अपना रंग",
+    "signProWorkspace": "साइन प्रो कार्यस्थान",
+    "imageBranding": "इमेज ब्रांडिंग",
+    "nextPlacementOpacity": "अगली प्लेसमेंट पारदर्शिता",
+    "opacity": "पारदर्शिता",
+    "rotate15": "+15° घुमाएँ",
+    "layers": "लेयर्स",
+    "layerForward": "आगे",
+    "layerBackward": "पीछे",
+    "statsAnnotations": "कुल टिप्पणियाँ: {{count}}",
+    "statsOnPage": "इस पृष्ठ पर: {{count}}",
+    "newFile": "नई फ़ाइल",
+    "pagesHeading": "पृष्ठ",
+    "masterPdf": "मास्टर PDF",
+    "merge": "मर्ज़",
+    "rotate90": "+90° घुमाएँ",
+    "splitPage": "पृष्ठ स्प्लिट करें",
+    "compressExtreme": "संपीड़न: अधिकतम",
+    "compressBalanced": "संपीड़न: संतुलित",
+    "compressLight": "संपीड़न: हल्का",
+    "applyCompress": "संपीड़न लागू करें",
+    "deletePage": "पृष्ठ हटाएँ",
+    "undo": "पूर्ववत",
+    "redo": "फिर करें",
+    "clearPage": "साफ़ करें",
+    "savePdf": "PDF सहेजें",
+    "rearrange": "पुनर्व्यवस्था",
+    "pageNofM": "पृष्ठ {{current}} / {{total}}",
+    "uploadDrop": "संपादन शुरू करने के लिए PDF छोड़ें",
+    "uploadSublabel": "टेक्स्ट, ड्रॉ, पृष्ठ मर्ज़, संपीड़न और टिप्पणियाँ — ब्राउज़र में निजी रूप से।",
+    "faqHeading": "अक्सर पूछे जाने वाले प्रश्न",
+    "tools": {
+      "cursor": "चयनित करें",
+      "content": "सामग्री संपादन",
+      "text": "टेक्स्ट",
+      "image": "छवि",
+      "pen": "ड्रॉ करें",
+      "highlight": "हाइलाइट",
+      "rect": "आयत",
+      "circle": "वृत्त",
+      "line": "रेखा",
+      "arrow": "तीर",
+      "signature": "साइन प्रो",
+      "eraser": "रबड़",
+      "whiteout": "सफेद परत"
+    },
+    "contentModal": {
+      "title": "सामग्री संपादन",
+      "hint": "मूल टेक्स्ट पर सफेद मुखौटा; निर्यात पर प्रतिस्थापन टेक्स्ट ऊपर बनता है।",
+      "replacement": "प्रतिस्थापन",
+      "cancel": "रद्द करें",
+      "apply": "लागू करें"
+    },
+    "contentHitHint": "संपादन के लिए टेक्स्ट पर डबल-क्लिक करें",
+    "rearrangeModal": {
+      "title": "पृष्ठ पुनर्व्यवस्थित करें",
+      "desc": "थंबनेल खींचें। आप दस्तावेज़ नई क्रम में डाउनलोड कर सकते हैं।",
+      "saveDownload": "पुनर्व्यवस्थित PDF सहेजें",
+      "cancel": "रद्द करें"
+    },
+    "errors": {
+      "mergeFailed": "मर्ज़ असफल।",
+      "compressFailed": "संपीड़न असफल।",
+      "rotateFailed": "घुमाना असफल।",
+      "deletePageFailed": "पृष्ठ नहीं हटाया जा सका।",
+      "splitFailed": "स्प्लिट असफल।",
+      "savePdfFailed": "PDF सहेजा नहीं जा सका।",
+      "rearrangeFailed": "PDF पुनर्व्यवस्थित नहीं हो सका।"
+    },
+    "premiumLimitFallback": "प्रीमियम सीमा पूरी हो गई।",
+    "pageAlt": "पृष्ठ {{n}}",
+    "layerWhiteout": "सामग्री मुखौटा",
+    "signPro": {
+      "title": "साइन प्रो",
+      "draw": "ड्रॉ",
+      "type": "टाइप करें",
+      "upload": "अपलोड",
+      "drawHint": "रेखाएँ चिकनी कर्व के साथ बनाई जाती हैं और जहाँ संभव हो तेज़ रिज़ॉल्यूशन पर निर्यात होती हैं।",
+      "clear": "साफ़ करें",
+      "addToDocument": "दस्तावेज़ में जोड़ें",
+      "defaultName": "आपका नाम",
+      "uploadLabel": "हस्ताक्षर स्कैन छोड़ें या चुनें",
+      "uploadSub": "हल्के कागज़ टोन को स्वचालित रूप से हटाकर पारदर्शिता।",
+      "previewAlt": "हस्ताक्षर पूर्वावलोकन"
+    }
+  },
+  "dropZone": {
+    "dropToUpload": "अपलोड के लिए छोड़ें",
+    "dropPdfFiles": "PDF यहाँ छोड़ें",
+    "orClickBrowse": "इस क्षेत्र पर टैप या क्लिक करें — आकार सीमाएँ लागू",
+    "selectFiles": "फ़ाइलें चुनें",
+    "uploading": "फ़ाइलें प्राप्त हो रही हैं…",
+    "uploadingHint": "कृपया प्रतीक्षा करें।",
+    "successTitle": "फ़ाइलें तैयार",
+    "successSub": "अगला चरण नीचे जारी रखें।"
+  },
+  "toolPage": {
+    "toolTagline": "Secure, private, and fast in your browser.",
+    "batchEnabled": "Enabled for this tool.",
+    "batchSingle": "One file per process session.",
+    "needHelpDesc": "Report issues quickly and our team will investigate.",
+    "reportIssuePrompt": "Please describe the problem and we will follow up within 24 hours.",
+    "issueSummaryPlaceholder": "What happened?",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "detailsPlaceholder": "Describe the issue in detail...",
+    "summaryTagline": "Enjoy private browser processing and fast results.",
+    "quickActionUpload": "Use drag-and-drop or click to choose files.",
+    "quickActionDelete": "All outputs are automatically deleted after download.",
+    "quickActionNoAccount": "No account required for basic tool access."
+  },
+  "loginPage": {
+    "metaTitle": "Login - Secure Access | PDFTrusted",
+    "metaDesc": "Login to PDFTrusted for secure access to premium PDF tools and account management.",
+    "title": "Login to PDFTrusted",
+    "subtitle": "Secure access to your premium tools, saved preferences, and processing history.",
+    "emailPlaceholder": "Email address",
+    "passwordPlaceholder": "Password",
+    "continue": "Continue",
+    "noAccount": "Don't have an account?",
+    "contactSupport": "Contact support"
+  },
+  "aboutPage": {
+    "title": "About PDFTrusted",
+    "subtitle": "PDFTrusted (https://pdftrusted.com) is a secure, fast, utility-driven PDF tool suite built for real-world document workflows.",
+    "p1": "We built PDFTrusted so anyone can merge, split, compress, convert, sign, and edit PDFs without installing desktop software. The product is designed around speed and clarity: open a tool, complete your task, and download the result. Core processing runs in your browser whenever possible, which keeps routine document work private and responsive.",
+    "p2": "Our mission is to make dependable PDF utilities accessible to individuals, teams, and educators while staying transparent about what happens to your data. The public website is delivered globally through Cloudflare’s network for reliability and performance. Optional Google sign-in exists only to make returning to your workspace easier — it does not change our core stance that your PDF content is yours, and we do not use your documents to train models or build marketing profiles from file contents.",
+    "whyTitle": "Why we started PDFTrusted",
+    "whyDesc": "Too many PDF sites are slow, cluttered, or vague about privacy. PDFTrusted focuses on straightforward tools, honest disclosures, and a calm user experience you can trust for day-to-day work.",
+    "cards": {
+      "secureTitle": "Security-minded design",
+      "secureDesc": "We prioritize browser-side processing for core tools and minimize what touches the server.",
+      "privacyTitle": "Privacy first",
+      "privacyDesc": "We do not archive your PDFs as a product feature; see our Privacy Policy for account and OAuth details.",
+      "availableTitle": "Always within reach",
+      "availableDesc": "Use PDFTrusted on modern browsers across desktop and mobile."
+    },
+    "highlights": {
+      "noStorageTitle": "No document warehousing",
+      "noStorageDesc": "We do not operate a “cloud drive” for your uploads. Files are used for processing and cleared from active memory when your task finishes.",
+      "freeTitle": "Free core utilities",
+      "freeDesc": "We keep the essential toolkit approachable and clearly labeled so you know what each tool does.",
+      "clientTitle": "Local-first where it fits",
+      "clientDesc": "Many workflows complete entirely on your device; server features are limited to what the tool requires (for example, authentication or large uploads when enabled)."
+    },
+    "faq": {
+      "safeQ": "Is PDFTrusted safe to use?",
+      "safeA": "PDFTrusted uses browser-first processing on supported tools. Optional cloud features use encrypted transfer and automatic cleanup per our Privacy Policy. Choose the processing path shown before you start a job.",
+      "storeQ": "Are my files stored anywhere?",
+      "storeA": "No. We do not store your uploads. Files are processed in memory and removed immediately after the task completes. Our service is designed around No File Storage and maximum user privacy.",
+      "freeQ": "Is PDFTrusted free forever?",
+      "freeA": "PDFTrusted is free to use for core PDF tools. We keep the service accessible with no hidden fees, and our priority is a transparent browser-based experience for every user."
+    }
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subtitle": "How PDFTrusted at https://pdftrusted.com handles your information — including optional Google sign-in — and how we protect your trust.",
+    "sections": {
+      "privacyFirstTitle": "Privacy first",
+      "privacyFirstDesc": "PDFTrusted is designed so everyday PDF work stays on your device whenever the selected tool allows it. This policy explains what we do when you browse the site, when you optionally authenticate, and how third-party infrastructure fits in.",
+      "clientTitle": "Browser-based processing",
+      "clientDesc": "Many tools process files directly in your browser. In those cases, the contents of your PDF are not sent to our application servers for conversion logic. You should still avoid processing highly sensitive documents on shared or untrusted devices.",
+      "storageTitle": "No PDF “library” for users",
+      "storageDesc": "We do not operate a consumer cloud storage product for your PDFs. Outputs are generated for you to download; we do not keep a personal document archive tied to casual site use.",
+      "secureTitle": "Security practices",
+      "secureItem1": "We use HTTPS for the public site at https://pdftrusted.com.",
+      "secureItem2": "Core tools do not require an account. If you choose Google sign-in, only the profile data described below is used.",
+      "secureItem3": "Infrastructure providers may process network signals (for example IP metadata) as part of delivering the service; see “Hosting & sessions”.",
+      "googleOAuthTitle": "Google sign-in (OAuth 2.0)",
+      "googleOAuthIntro": "If you choose “Sign in with Google,” authentication is handled by Google and by Auth.js (JWT sessions) on our side. We use this flow only to recognize your account on PDFTrusted — not to read the contents of your Google Drive or Gmail.",
+      "googleOAuthItem1": "Data received from Google typically includes a stable subject identifier, email address, and name as permitted by your Google account settings.",
+      "googleOAuthItem2": "We store this sign-in information only insofar as needed to maintain your session (for example inside signed session cookies / JWT claims such as user id, email, and display name).",
+      "googleOAuthItem3": "Google’s processing of your credentials is governed by Google’s policies; please review Google Account security and privacy controls separately.",
+      "googleOAuthItem4": "You can stop using Google sign-in at any time by signing out and, if you wish, revoking PDFTrusted’s access from your Google account settings.",
+      "googleOAuthItem5": "We do not sell your Google profile data and we do not use your PDF file contents for advertising personalization.",
+      "hostingTitle": "Hosting, sessions, and storage",
+      "hostingDesc": "The website and API are served from Cloudflare’s globally distributed network (“the edge”). Static pages (such as this Privacy Policy) are pre-built files without a traditional SQL database dependency. Session cookies issued for authentication are HTTP-only and scoped for secure use with our origin. If you use email/password registration where offered, minimal account records may be stored in Cloudflare R2 as small encrypted or hashed artifacts — not mixed with your PDF processing buffers.",
+      "contactPrivacyTitle": "Contact",
+      "contactPrivacyDesc": "Questions about this policy: support@pdftrusted.com. Please include enough detail for us to help, without attaching confidential documents unless we explicitly request them."
+    },
+    "faq": {
+      "storeQ": "Does PDFTrusted store my files?",
+      "storeA": "We do not provide a personal PDF hosting product. For typical browser tools, files are used transiently for processing and are not kept as an ongoing library on our servers.",
+      "collectQ": "What data does PDFTrusted collect?",
+      "collectA": "Beyond standard web telemetry that hosting and analytics partners may collect (such as IP-derived data, user agent, and security logs), we only receive personal identifiers when you authenticate. With Google OAuth we may process your Google user id, email, and name to maintain your session. We do not use your document text to build user profiles.",
+      "adsQ": "Will ads affect my privacy?",
+      "adsA": "Google AdSense may serve ads on PDFTrusted. Ad delivery is governed by Google’s advertising policies and your Google ad settings. PDF processing for supported tools remains separate from ad targeting logic."
+    }
+  },
+  "termsPage": {
+    "title": "Terms of Service",
+    "subtitle": "These Terms govern your use of PDFTrusted at https://pdftrusted.com. By using the site, you agree to this agreement and our Privacy Policy.",
+    "sections": {
+      "usingTitle": "Using PDFTrusted",
+      "usingDesc": "PDFTrusted provides online PDF utilities intended for lawful personal and business use. You agree not to misuse the service, not to attempt to disrupt or probe our infrastructure beyond normal browsing, and not to use automated means to overload the site without written permission.",
+      "responsibilityTitle": "Your content and compliance",
+      "responsibilityDesc": "You are solely responsible for the legality of the documents you process and for obtaining any necessary rights from third parties. Do not use PDFTrusted to violate copyright, export controls, privacy laws, or any applicable regulation.",
+      "availabilityTitle": "Availability and changes",
+      "availabilityDesc": "We strive to keep the service online but do not guarantee uninterrupted access. Features may change, rotate, or be retired as we improve the product. The canonical public site is https://pdftrusted.com; www.pdftrusted.com may redirect to this origin.",
+      "thirdPartyTitle": "Third-party services",
+      "thirdPartyDesc": "PDFTrusted relies on vendors such as Cloudflare (network and object storage where configured), Google (optional OAuth sign-in and advertising where enabled), and analytics or error-reporting tools you can control via browser settings. Those vendors process limited technical data under their own terms.",
+      "accountsTitle": "Accounts",
+      "accountsDesc": "Some features may require authentication. If you create a credential-based account where offered, you are responsible for safeguarding your password. If you use Google OAuth, your use of Google’s login service remains subject to Google’s terms. You must provide accurate information and notify us if you become aware of unauthorized account use.",
+      "serviceHostTitle": "No warranty",
+      "serviceHostDesc": "THE SERVICE IS PROVIDED “AS IS” WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT RESULTS WILL BE ERROR-FREE OR SUITABLE FOR LEGAL, MEDICAL, OR REGULATED USE CASES.",
+      "liabilityTitle": "Limitation of liability",
+      "liabilityDesc": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, PDFTRUSTED AND ITS OPERATORS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, OR FOR LOSS OF PROFITS, DATA, OR GOODWILL, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SITE. OUR AGGREGATE LIABILITY FOR ANY CLAIM RELATING TO THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE AMOUNTS YOU PAID US IN THE TWELVE MONTHS BEFORE THE CLAIM OR (B) FIFTY U.S. DOLLARS (US$50) IF YOU HAVE NOT PAID US."
+    },
+    "faq": {
+      "freeQ": "Is PDFTrusted free to use?",
+      "freeA": "Yes. Core PDF tools are available for free. We offer a transparent service with no hidden costs for basic document processing.",
+      "uploadQ": "What should I not upload?",
+      "uploadA": "Avoid uploading highly sensitive or confidential documents if you are concerned about privacy. Although PDFTrusted protects files locally, you should always use best judgment for sensitive content.",
+      "businessQ": "Can I use PDFTrusted for business documents?",
+      "businessA": "Yes. PDFTrusted is designed for both personal and professional use, but it is not a substitute for specialized enterprise-grade document management systems."
+    }
+  },
+  "tools": {
+    "compress-pdf": {
+      "label": "PDF संपीड़ित करें",
+      "desc": "PDF का आकार छोटा करें"
+    },
+    "pdf-editor": {
+      "label": "PDF एडिटर",
+      "desc": "PDF संपादित करें और टिप्पणी जोड़ें"
+    },
+    "translate-pdf": {
+      "label": "PDF टेक्स्ट निकालें",
+      "desc": "PDF से टेक्स्ट निकालें — स्थानीय रूप से"
+    },
+    "ocr-pdf": {
+      "label": "OCR PDF",
+      "desc": "स्कैन की गई PDF से टेक्स्ट निकालें"
+    },
+    "fill-pdf": {
+      "label": "PDF भरें",
+      "desc": "PDF फॉर्म भरें और सहेजें"
+    },
+    "compress-images": {
+      "label": "इमेज संपीड़ित करें",
+      "desc": "बहुत सी इमेज का साइज़ कम करें"
+    },
+    "enhance-image": {
+      "label": "इमेज सुधारें",
+      "desc": "इमेज की स्पष्टता और रंग सुधारें"
+    },
+    "merge-pdf": {
+      "label": "PDF मर्ज़ करें",
+      "desc": "एक से अधिक PDF को मिलाएँ"
+    },
+    "split-pdf": {
+      "label": "PDF विभाजित करें",
+      "desc": "PDF से पृष्ठ निकालें"
+    },
+    "rotate-pdf": {
+      "label": "PDF घुमाएँ",
+      "desc": "PDF पृष्ठों का अभिविन्यास ठीक करें"
+    },
+    "merge-images": {
+      "label": "इमेज मर्ज़ करें",
+      "desc": "इमेज को एक दस्तावेज़ में मिलाएँ"
+    },
+    "pdf-to-word": {
+      "label": "PDF से Word",
+      "desc": "PDF का टेक्स्ट संपादन-योग्य दस्तावेज़ में निकालें"
+    },
+    "pdf-to-image": {
+      "label": "PDF से इमेज",
+      "desc": "PDF पृष्ठों को JPG/PNG में बदलें"
+    },
+    "pdf-to-png": {
+      "label": "PDF से PNG",
+      "desc": "PDF पृष्ठों को PNG में निर्यात करें"
+    },
+    "pdf-to-epub": {
+      "label": "PDF से EPUB",
+      "desc": "PDF को EPUB ईबुक में बदलें"
+    },
+    "pdf-to-jpg": {
+      "label": "PDF से JPG",
+      "desc": "PDF पृष्ठों को JPG के रूप में सहेजें"
+    },
+    "pdf-to-pptx": {
+      "label": "PDF से PPTX",
+      "desc": "PDF को PowerPoint स्लाइड में बदलें"
+    },
+    "pdf-to-excel": {
+      "label": "PDF से Excel",
+      "desc": "PDF तालिकाओं को Excel में बदलें"
+    },
+    "pdf-maker": {
+      "label": "PDF मेकर",
+      "desc": "टेक्स्ट से PDF बनाएँ"
+    },
+    "word-to-pdf": {
+      "label": "Word से PDF",
+      "desc": "Word दस्तावेज़ को PDF में बदलें"
+    },
+    "png-to-pdf": {
+      "label": "PNG से PDF",
+      "desc": "PNG इमेज को PDF में बदलें"
+    },
+    "epub-to-pdf": {
+      "label": "EPUB से PDF",
+      "desc": "EPUB ईबुक को PDF में बदलें"
+    },
+    "jpg-to-pdf": {
+      "label": "JPG से PDF",
+      "desc": "JPG इमेज को PDF में बदलें"
+    },
+    "pptx-to-pdf": {
+      "label": "PPTX से PDF",
+      "desc": "PowerPoint को PDF में बदलें"
+    },
+    "excel-to-pdf": {
+      "label": "Excel से PDF",
+      "desc": "Excel शीट को PDF में बदलें"
+    },
+    "unlock-pdf": {
+      "label": "PDF अनलॉक करें",
+      "desc": "PDF पासवर्ड और प्रतिबंध हटाएँ"
+    },
+    "watermark-pdf": {
+      "label": "वॉटरमार्क जोड़ें",
+      "desc": "PDF पर वॉटरमार्क लगाएँ"
+    },
+    "page-numbers": {
+      "label": "पृष्ठ संख्या",
+      "desc": "PDF पर पृष्ठ संख्या जोड़ें"
+    },
+    "sign-pdf": {
+      "label": "PDF साइन करें — सुरक्षित ई-हस्ताक्षर",
+      "desc": "मुफ्त PDF साइनर: साइन ड्रॉ करें, टाइप करें या अपलोड करें — पूरी प्रक्रिया ब्राउज़र में निजी।"
+    },
+    "remove-watermark": {
+      "label": "स्पॉट रिपेयर (ऑफ़लाइन)",
+      "desc": "इमेज और PDF के लिए स्थानीय वॉटरमार्क टच-अप"
+    },
+    "generate-qr-code": {
+      "label": "QR कोड जेनरेटर — मुफ्त और तेज़",
+      "desc": "लिंक, मेन्यू और कैम्पेन के लिए हाई-रिज़ॉल्यूशन PNG/SVG QR कोड बनाएँ — सीधे ब्राउज़र से।"
+    },
+    "ai-scanner": {
+      "label": "डॉक्यूमेंट स्कैनर",
+      "desc": "फोटो को साफ-सुथरी स्कैन में बदलें — ब्राउज़र में ऑफ़लाइन"
+    },
+    "extract-pages": {
+      "label": "पेज निकालें",
+      "desc": "PDF से चुने हुए पेज निकालें"
+    },
+    "remove-pages": {
+      "label": "पेज हटाएँ",
+      "desc": "PDF से अनचाहे पेज हटाएँ"
+    },
+    "organize-pdf": {
+      "label": "पेज पुनर्व्यवस्थित करें",
+      "desc": "PDF पेज खींचकर पुनर्व्यवस्थित करें"
+    },
+    "protect-pdf": {
+      "label": "PDF सुरक्षित करें",
+      "desc": "PDF पर पासवर्ड लगाएँ"
+    },
+    "hard-lock-pdf": {
+      "label": "PDF हार्ड लॉक",
+      "desc": "PDF पर मजबूत एन्क्रिप्शन लगाएँ"
+    },
+    "repair-pdf": {
+      "label": "PDF रिपेयर करें",
+      "desc": "खराब PDF फ़ाइल ठीक करें"
+    },
+    "flatten-pdf": {
+      "label": "PDF फ़्लैटन करें",
+      "desc": "फॉर्म फ़ील्ड और एनोटेशन को स्थिर कंटेंट में बदलें"
+    },
+    "compare-pdf": {
+      "label": "PDF तुलना करें",
+      "desc": "दो PDF की साइड बाय साइड तुलना करें"
+    },
+    "ai-question-gen": {
+      "label": "AI प्रश्न जनरेटर",
+      "desc": "AI से PDF से MCQ और प्रश्न बनाएँ"
+    },
+    "redact-pdf": {
+      "label": "PDF रीडैक्ट करें",
+      "desc": "PDF से संवेदनशील जानकारी हटाएँ"
+    },
+    "pdf-to-html": {
+      "label": "PDF से HTML",
+      "desc": "PDF को HTML पेज में बदलें"
+    },
+    "universal-converter": {
+      "label": "यूनिवर्सल कन्वर्टर",
+      "desc": "किसी भी फ़ाइल को PDF में बदलें"
+    },
+    "document-scanner": {
+      "label": "डॉक्यूमेंट स्कैनर",
+      "desc": "फोटो से स्कैन बनाएँ"
+    },
+    "photo-resizer": {
+      "label": "फोटो रिसाइज़र",
+      "desc": "फोटो का आकार बदलें"
+    },
+    "resume-builder": {
+      "label": "रेज़्यूमे बिल्डर",
+      "desc": "पेशेवर रेज़्यूमे बनाएँ"
+    },
+    "ai-summarize": {
+      "label": "PDF सारांश",
+      "desc": "AI से PDF का सारांश बनाएँ"
+    },
+    "chat-pdf": {
+      "label": "PDF से चैट करें",
+      "desc": "PDF के बारे में AI से सवाल पूछें"
+    },
+    "smart-scan-ai": {
+      "label": "स्मार्ट स्कैन AI",
+      "desc": "फोटो या स्कैन से साफ PDF बनाएँ"
+    },
+    "pdf-to-pdfa": {
+      "label": "PDF से PDF/A",
+      "desc": "सरकारी अनुपालन के लिए PDF/A में बदलें"
+    }
+  },
+  "seo": {
+    "generateQr": {
+      "title": "मुफ्त ऑनलाइन QR कोड जेनरेटर — PNG और SVG डाउनलोड",
+      "desc": "वेबसाइट और PDF के लिए तेज़ QR कोड मेकर। कस्टम साइज़, PNG/SVG डाउनलोड, गोपनीयता-प्रथम प्रोसेसिंग — PDFTrusted के मुफ्त PDF टूल्स का हिस्सा।"
+    }
+  },
+  "scanner": {
+    "seoTitle": "मुफ्त ऑनलाइन डॉक्यूमेंट स्कैनर — फोटो से PDF (ऑफ़लाइन)",
+    "seoDesc": "रसीदों और दस्तावेज़ों के लिए ऑनलाइन स्कैनर: ऑटो ब्राइटनेस/कंट्रास्ट, परस्पेक्टिव क्रॉप और पोर्ट्रेट निर्यात। 100% ब्राउज़र प्रोसेसिंग, OpenCV-शैली एल्गोरिथम — कोई अपलोड नहीं।",
+    "heroTitle": "डॉक्यूमेंट स्कैनर",
+    "heroSubtitle": "मुफ्त, सुरक्षित फोटो-टू-स्कैन पाइपलाइन — परस्पेक्टिव सुधार और एनहांसमेंट आपके डिवाइस पर ही चलते हैं।",
+    "languageLabel": "पृष्ठ भाषा",
+    "dropLabel": "अपने दस्तावेज़ की फोटो छोड़ें",
+    "dropSub": "JPG, PNG या WebP — आपके डिवाइस पर ही प्रोसेस होता है",
+    "original": "मूल",
+    "result": "स्कैन परिणाम",
+    "resultPlaceholder": "आउटपुट देखने के लिए स्कैनर चलाएँ।",
+    "processingHint": "बेहतर बना रहा है और अलाइन कर रहा है…",
+    "optionsTitle": "स्कैनर विकल्प",
+    "optPerspective": "ऑटो परस्पेक्टिव और क्रॉप",
+    "optEnhance": "ऑटो-एनहांस (स्कैन लुक)",
+    "optPortrait": "पोर्ट्रेट ओरिएंटेशन",
+    "runScan": "दस्तावेज़ स्कैन करें",
+    "processing": "प्रोसेस हो रहा है…",
+    "downloadPng": "PNG डाउनलोड करें",
+    "statusProcessing": "आपका स्कैन ब्राउज़र में सुरक्षित रूप से प्रोसेस हो रहा है…",
+    "statusFootnote": "एक सुसंगत अनुभव के लिए कम से कम {{seconds}} सेकंड का दृश्य प्रगति शामिल है।",
+    "faqTitle": "स्कैनर और गोपनीयता",
+    "faq1": "फोटो आपके डिवाइस पर ही रहती है — डिटेक्शन और एनहांसमेंट पूरी तरह ब्राउज़र में (OpenCV.js + Canvas) चलते हैं।",
+    "faq2": "परस्पेक्टिव सुधार जहाँ संभव हो दस्तावेज़ के किनारे खोजता है; अन्यथा पूरी फोटो पर एनहांसमेंट लागू होता है।",
+    "faq3": "पोर्ट्रेट मोड चौड़े कैप्चर को मोबाइल पठन के लिए घुमाता है; तेज़ PDF वर्कफ़्लो के लिए हमारे PDF एडिटर से जोड़ें।",
+    "errors": {
+      "generic": "इस इमेज को प्रोसेस नहीं किया जा सका। दूसरी फोटो आज़माएँ या परस्पेक्टिव सुधार बंद करें।"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "at": "2026-05-17T21:59:40.729Z",
+  "steps": [
+    {
+      "name": "assert-no-prod-qa",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "name": "fixtures",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "name": "diagnostics",
+      "ok": false,
+      "status": 1
+    },
+    {
+      "name": "unit",
+      "ok": true,
+      "status": 0
+    },
+    {
+      "name": "api",
+      "ok": false,
+      "status": 1
+    },
+    {
+      "name": "tool-matrix",
+      "ok": false,
+      "status": 1
+    },
+    {
+      "name": "queue-audit",
+      "ok": false,
+      "status": 1
+    }
+  ],
+  "failed": 0
+}

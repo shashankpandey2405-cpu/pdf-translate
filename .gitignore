@@ -1,0 +1,15 @@
+.vercel
+.cursor
+backend-service
+.next
+.turbo
+coverage
+*.tsbuildinfo
+.env.local
+.env*.local
+.wrangler
+.dev.vars
+node_modules
+dist
+dist-worker
+*.html

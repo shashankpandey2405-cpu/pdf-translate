@@ -1,0 +1,470 @@
+{
+  "health": {
+    "ok": true,
+    "status": 200,
+    "body": {
+      "ok": true,
+      "qaMode": false,
+      "checks": {
+        "redis": true,
+        "s3": true,
+        "supabaseServiceRole": true,
+        "workerSecret": true,
+        "callbackUrl": true
+      },
+      "bucket": "pdftrusted",
+      "queueDepth": {
+        "ocr": 0,
+        "docx": 0,
+        "compress": 0
+      }
+    },
+    "checks": {
+      "redis": true,
+      "s3": true,
+      "supabaseServiceRole": true,
+      "workerSecret": true,
+      "callbackUrl": true
+    },
+    "queueDepth": {
+      "ocr": 0,
+      "docx": 0,
+      "compress": 0
+    }
+  },
+  "usage": {
+    "ok": false,
+    "status": 401,
+    "body": {
+      "error": "unauthorized",
+      "message": "Sign in to use Enhanced Cloud Processing."
+    }
+  },
+  "toolMatrix": {
+    "at": "2026-05-17T23:11:06.678Z",
+    "base": "http://localhost:3000",
+    "total": 38,
+    "passed": 38,
+    "failed": 0,
+    "results": [
+      {
+        "slug": "compress-pdf",
+        "url": "http://localhost:3000/en/compress-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-editor",
+        "url": "http://localhost:3000/en/pdf-editor",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "translate-pdf",
+        "url": "http://localhost:3000/en/translate-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "ocr-pdf",
+        "url": "http://localhost:3000/en/ocr-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "redact-pdf",
+        "url": "http://localhost:3000/en/redact-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "repair-pdf",
+        "url": "http://localhost:3000/en/repair-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "ai-scanner",
+        "url": "http://localhost:3000/en/ai-scanner",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "merge-pdf",
+        "url": "http://localhost:3000/en/merge-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "split-pdf",
+        "url": "http://localhost:3000/en/split-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "rotate-pdf",
+        "url": "http://localhost:3000/en/rotate-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "universal-converter",
+        "url": "http://localhost:3000/en/universal-converter",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-word",
+        "url": "http://localhost:3000/en/pdf-to-word",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-image",
+        "url": "http://localhost:3000/en/pdf-to-image",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-png",
+        "url": "http://localhost:3000/en/pdf-to-png",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-epub",
+        "url": "http://localhost:3000/en/pdf-to-epub",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-jpg",
+        "url": "http://localhost:3000/en/pdf-to-jpg",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-pptx",
+        "url": "http://localhost:3000/en/pdf-to-pptx",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-excel",
+        "url": "http://localhost:3000/en/pdf-to-excel",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-to-html",
+        "url": "http://localhost:3000/en/pdf-to-html",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "chat-pdf",
+        "url": "http://localhost:3000/en/chat-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pdf-maker",
+        "url": "http://localhost:3000/en/pdf-maker",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "word-to-pdf",
+        "url": "http://localhost:3000/en/word-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "png-to-pdf",
+        "url": "http://localhost:3000/en/png-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "epub-to-pdf",
+        "url": "http://localhost:3000/en/epub-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "jpg-to-pdf",
+        "url": "http://localhost:3000/en/jpg-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "pptx-to-pdf",
+        "url": "http://localhost:3000/en/pptx-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "excel-to-pdf",
+        "url": "http://localhost:3000/en/excel-to-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "document-scanner",
+        "url": "http://localhost:3000/en/document-scanner",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "photo-resizer",
+        "url": "http://localhost:3000/en/photo-resizer",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "resume-builder",
+        "url": "http://localhost:3000/en/resume-builder",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "unlock-pdf",
+        "url": "http://localhost:3000/en/unlock-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "protect-pdf",
+        "url": "http://localhost:3000/en/protect-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "hard-lock-pdf",
+        "url": "http://localhost:3000/en/hard-lock-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "watermark-pdf",
+        "url": "http://localhost:3000/en/watermark-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "page-numbers",
+        "url": "http://localhost:3000/en/page-numbers",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "sign-pdf",
+        "url": "http://localhost:3000/en/sign-pdf",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "remove-watermark",
+        "url": "http://localhost:3000/en/remove-watermark",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      },
+      {
+        "slug": "generate-qr-code",
+        "url": "http://localhost:3000/en/generate-qr-code",
+        "status": 200,
+        "ok": true,
+        "attempts": 1
+      }
+    ]
+  },
+  "queueAudit": {
+    "at": "2026-05-17T23:12:13.879Z",
+    "health": {
+      "ok": true,
+      "qaMode": false,
+      "checks": {
+        "redis": true,
+        "s3": true,
+        "supabaseServiceRole": true,
+        "workerSecret": true,
+        "callbackUrl": true
+      },
+      "bucket": "pdftrusted",
+      "queueDepth": {
+        "ocr": 0,
+        "docx": 0,
+        "compress": 0
+      }
+    },
+    "warnings": [],
+    "ok": true
+  },
+  "infraAudit": {
+    "at": "2026-05-17T22:59:50.806Z",
+    "missingCritical": 0,
+    "groups": [
+      {
+        "title": "Next / auth (public)",
+        "keys": [
+          {
+            "key": "NEXT_PUBLIC_SUPABASE_URL",
+            "st": "SET"
+          },
+          {
+            "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+            "st": "SET"
+          },
+          {
+            "key": "NEXT_PUBLIC_ENHANCED_ENABLED",
+            "st": "SET"
+          },
+          {
+            "key": "NEXT_PUBLIC_APP_URL",
+            "st": "SET"
+          },
+          {
+            "key": "NEXTAUTH_URL",
+            "st": "SET"
+          },
+          {
+            "key": "AUTH_URL",
+            "st": "SET"
+          }
+        ]
+      },
+      {
+        "title": "Next / server secrets",
+        "keys": [
+          {
+            "key": "SUPABASE_SERVICE_ROLE_KEY",
+            "st": "SET"
+          },
+          {
+            "key": "AUTH_SECRET",
+            "st": "SET"
+          },
+          {
+            "key": "NEXTAUTH_SECRET",
+            "st": "SET"
+          }
+        ]
+      },
+      {
+        "title": "Enhanced cloud",
+        "keys": [
+          {
+            "key": "UPSTASH_REDIS_REST_URL",
+            "st": "SET"
+          },
+          {
+            "key": "UPSTASH_REDIS_REST_TOKEN",
+            "st": "SET"
+          },
+          {
+            "key": "S3_ENDPOINT",
+            "st": "SET"
+          },
+          {
+            "key": "S3_REGION",
+            "st": "SET"
+          },
+          {
+            "key": "S3_BUCKET",
+            "st": "SET"
+          },
+          {
+            "key": "S3_ACCESS_KEY_ID",
+            "st": "SET"
+          },
+          {
+            "key": "S3_SECRET_ACCESS_KEY",
+            "st": "SET"
+          },
+          {
+            "key": "RENDER_WORKER_SECRET",
+            "st": "SET"
+          },
+          {
+            "key": "ENHANCED_CALLBACK_URL",
+            "st": "SET"
+          },
+          {
+            "key": "ENHANCED_DAILY_LIMIT",
+            "st": "SET"
+          }
+        ]
+      },
+      {
+        "title": "Internal QA (never production)",
+        "keys": [
+          {
+            "key": "PDFTRUSTED_QA_MODE",
+            "st": "MISSING"
+          },
+          {
+            "key": "NEXT_PUBLIC_PDFTRUSTED_QA_MODE",
+            "st": "MISSING"
+          },
+          {
+            "key": "PDFTRUSTED_QA_SECRET",
+            "st": "MISSING"
+          }
+        ]
+      }
+    ]
+  },
+  "presign": {
+    "ok": true,
+    "status": 401,
+    "expectsAuth": true,
+    "error": "unauthorized"
+  },
+  "jobsLifecycle": {
+    "skipped": true,
+    "reason": "no QA_SESSION_COOKIE"
+  },
+  "seoScan": {
+    "hits": [],
+    "at": "2026-05-17T22:59:50.732Z"
+  },
+  "qaMode": false,
+  "at": "2026-05-17T23:12:14.084Z"
+}

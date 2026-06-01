@@ -1,0 +1,452 @@
+{
+  "nav": {
+    "home": "首页",
+    "download": "下载",
+    "tools": "工具",
+    "login": "登录",
+    "apk": "APK",
+    "language": "语言",
+    "pdfEditor": "PDF 编辑器",
+    "resources": {
+      "about": "关于我们",
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "cookies": "Cookie 政策",
+      "disclaimer": "免责声明",
+      "faq": "常见问题",
+      "howTo": "使用指南"
+    }
+  },
+  "layout": {
+    "infoCenter": "PDFTrusted 信息中心",
+    "aboutLink": "关于 PDFTrusted",
+    "privacyLink": "隐私政策",
+    "termsLink": "服务条款",
+    "cookieLink": "Cookie 政策",
+    "disclaimerLink": "免责声明",
+    "faqLink": "常见问题",
+    "howToLink": "使用指南"
+  },
+  "heroTitle": "使用 PDFTrusted 解锁专业级文档管理",
+  "heroSubtitle": "安全、快速、可靠的 PDF 工具。",
+  "allTools": "所有 PDF 工具",
+  "featuredTools": "精选工具",
+  "whyChoose": "为什么选择 PDFTrusted.com",
+  "allToolsPageTitle": "所有 PDF 工具",
+  "allToolsPageSubtitle": "按分类浏览全部工具。",
+  "home": {
+    "heroPill": "100% 浏览器处理 · 零上传 · 永久免费",
+    "openEditor": "打开 PDF 编辑器",
+    "liveEditor": "实时 PDF 编辑器",
+    "new": "新",
+    "liveEditorDesc": "在线添加文字、绘制、标注和高亮 PDF。",
+    "openEditorShort": "打开编辑器",
+    "useFree": "免费使用",
+    "trustEncryption": "HTTPS 保护",
+    "trustGdpr": "注重隐私的设计",
+    "trustNoLogging": "不记录内容"
+  },
+  "footer": {
+    "description": "快速、免费、安全的浏览器 PDF 工具。",
+    "organize": "整理",
+    "optimize": "优化",
+    "convert": "转换",
+    "company": "公司",
+    "secure": "隐私优先",
+    "browserBased": "浏览器处理",
+    "privateProcessing": "私密处理",
+    "joinTitle": "加入我们的全球社区",
+    "joinDesc": "获取产品更新和新工具发布。",
+    "joinCta": "加入"
+  },
+  "pdfEditor": {
+    "closePanels": "关闭侧边栏",
+    "toolsHeading": "工具",
+    "color": "颜色",
+    "stroke": "线宽 — {{width}} px",
+    "fontSizeLabel": "字号 — {{size}} pt",
+    "bold": "粗体",
+    "italic": "斜体",
+    "customColor": "自定义颜色",
+    "signProWorkspace": "专业签名工作台",
+    "imageBranding": "图片徽章/印章",
+    "nextPlacementOpacity": "下次置入透明度",
+    "opacity": "透明度",
+    "rotate15": "旋转 +15°",
+    "layers": "图层",
+    "layerForward": "上移",
+    "layerBackward": "下移",
+    "statsAnnotations": "注释总数：{{count}}",
+    "statsOnPage": "本页：{{count}}",
+    "newFile": "新建文件",
+    "pagesHeading": "页面",
+    "masterPdf": "文档主控台",
+    "merge": "合并",
+    "rotate90": "旋转 +90°",
+    "splitPage": "拆分本页",
+    "compressExtreme": "压缩：极限",
+    "compressBalanced": "压缩：平衡",
+    "compressLight": "压缩：轻度",
+    "applyCompress": "应用压缩",
+    "deletePage": "删除当前页",
+    "undo": "撤销",
+    "redo": "重做",
+    "clearPage": "清除本页",
+    "savePdf": "保存 PDF",
+    "rearrange": "重排页面",
+    "pageNofM": "第 {{current}} / {{total}} 页",
+    "uploadDrop": "拖放 PDF 开始编辑",
+    "uploadSublabel": "文本、绘图、合并、压缩与注释 — 仅在浏览器私密处理。",
+    "faqHeading": "常见问题",
+    "tools": {
+      "cursor": "选择",
+      "content": "内容编辑",
+      "text": "文本",
+      "image": "图片",
+      "pen": "绘制",
+      "highlight": "高亮",
+      "rect": "矩形",
+      "circle": "椭圆",
+      "line": "线条",
+      "arrow": "箭头",
+      "signature": "专业签名",
+      "eraser": "橡皮擦",
+      "whiteout": "遮白"
+    },
+    "contentModal": {
+      "title": "内容编辑",
+      "hint": "原文字上会覆盖遮白；导出时上层绘制替换文字。",
+      "replacement": "替换文字",
+      "cancel": "取消",
+      "apply": "应用"
+    },
+    "contentHitHint": "双击文字进行编辑",
+    "rearrangeModal": {
+      "title": "重排页面",
+      "desc": "拖动缩略图调整顺序，可导出重排后的完整 PDF。",
+      "saveDownload": "保存重排后的 PDF",
+      "cancel": "取消"
+    },
+    "errors": {
+      "mergeFailed": "合并失败。",
+      "compressFailed": "压缩失败。",
+      "rotateFailed": "旋转失败。",
+      "deletePageFailed": "无法删除页面。",
+      "splitFailed": "拆分失败。",
+      "savePdfFailed": "保存 PDF 失败。",
+      "rearrangeFailed": "重排 PDF 失败。"
+    },
+    "premiumLimitFallback": "已超过套餐限制。",
+    "pageAlt": "第 {{n}} 页",
+    "layerWhiteout": "内容遮罩",
+    "signPro": {
+      "title": "专业签名",
+      "draw": "绘制",
+      "type": "打字",
+      "upload": "上传",
+      "drawHint": "笔划使用平滑二次曲线，尽可能以高分辨率导出。",
+      "clear": "清除",
+      "addToDocument": "添加到文档",
+      "defaultName": "您的姓名",
+      "uploadLabel": "拖放或选择签名扫描件",
+      "uploadSub": "自动去除浅色纸底以获得透明背景。",
+      "previewAlt": "签名预览"
+    }
+  },
+  "dropZone": {
+    "dropToUpload": "拖放以上传",
+    "dropPdfFiles": "将 PDF 拖放到此处",
+    "orClickBrowse": "点击或轻触此区域 — 有大小限制",
+    "selectFiles": "选择文件",
+    "uploading": "正在接收文件…",
+    "uploadingHint": "请稍候。",
+    "successTitle": "文件已就绪",
+    "successSub": "请继续下一步。"
+  },
+  "toolPage": {
+    "toolTagline": "Secure, private, and fast in your browser.",
+    "batchEnabled": "Enabled for this tool.",
+    "batchSingle": "One file per process session.",
+    "needHelpDesc": "Report issues quickly and our team will investigate.",
+    "reportIssuePrompt": "Please describe the problem and we will follow up within 24 hours.",
+    "issueSummaryPlaceholder": "What happened?",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "detailsPlaceholder": "Describe the issue in detail...",
+    "summaryTagline": "Enjoy private browser processing and fast results.",
+    "quickActionUpload": "Use drag-and-drop or click to choose files.",
+    "quickActionDelete": "All outputs are automatically deleted after download.",
+    "quickActionNoAccount": "No account required for basic tool access."
+  },
+  "loginPage": {
+    "metaTitle": "Login - Secure Access | PDFTrusted",
+    "metaDesc": "Login to PDFTrusted for secure access to premium PDF tools and account management.",
+    "title": "Login to PDFTrusted",
+    "subtitle": "Secure access to your premium tools, saved preferences, and processing history.",
+    "emailPlaceholder": "Email address",
+    "passwordPlaceholder": "Password",
+    "continue": "Continue",
+    "noAccount": "Don't have an account?",
+    "contactSupport": "Contact support"
+  },
+  "aboutPage": {
+    "title": "About PDFTrusted",
+    "subtitle": "PDFTrusted (https://pdftrusted.com) is a secure, fast, utility-driven PDF tool suite built for real-world document workflows.",
+    "p1": "We built PDFTrusted so anyone can merge, split, compress, convert, sign, and edit PDFs without installing desktop software. The product is designed around speed and clarity: open a tool, complete your task, and download the result. Core processing runs in your browser whenever possible, which keeps routine document work private and responsive.",
+    "p2": "Our mission is to make dependable PDF utilities accessible to individuals, teams, and educators while staying transparent about what happens to your data. The public website is delivered globally through Cloudflare’s network for reliability and performance. Optional Google sign-in exists only to make returning to your workspace easier — it does not change our core stance that your PDF content is yours, and we do not use your documents to train models or build marketing profiles from file contents.",
+    "whyTitle": "Why we started PDFTrusted",
+    "whyDesc": "Too many PDF sites are slow, cluttered, or vague about privacy. PDFTrusted focuses on straightforward tools, honest disclosures, and a calm user experience you can trust for day-to-day work.",
+    "cards": {
+      "secureTitle": "Security-minded design",
+      "secureDesc": "We prioritize browser-side processing for core tools and minimize what touches the server.",
+      "privacyTitle": "Privacy first",
+      "privacyDesc": "We do not archive your PDFs as a product feature; see our Privacy Policy for account and OAuth details.",
+      "availableTitle": "Always within reach",
+      "availableDesc": "Use PDFTrusted on modern browsers across desktop and mobile."
+    },
+    "highlights": {
+      "noStorageTitle": "No document warehousing",
+      "noStorageDesc": "We do not operate a “cloud drive” for your uploads. Files are used for processing and cleared from active memory when your task finishes.",
+      "freeTitle": "Free core utilities",
+      "freeDesc": "We keep the essential toolkit approachable and clearly labeled so you know what each tool does.",
+      "clientTitle": "Local-first where it fits",
+      "clientDesc": "Many workflows complete entirely on your device; server features are limited to what the tool requires (for example, authentication or large uploads when enabled)."
+    },
+    "faq": {
+      "safeQ": "Is PDFTrusted safe to use?",
+      "safeA": "PDFTrusted uses browser-first processing on supported tools. Optional cloud features use encrypted transfer and automatic cleanup per our Privacy Policy. Choose the processing path shown before you start a job.",
+      "storeQ": "Are my files stored anywhere?",
+      "storeA": "No. We do not store your uploads. Files are processed in memory and removed immediately after the task completes. Our service is designed around No File Storage and maximum user privacy.",
+      "freeQ": "Is PDFTrusted free forever?",
+      "freeA": "PDFTrusted is free to use for core PDF tools. We keep the service accessible with no hidden fees, and our priority is a transparent browser-based experience for every user."
+    }
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subtitle": "How PDFTrusted at https://pdftrusted.com handles your information — including optional Google sign-in — and how we protect your trust.",
+    "sections": {
+      "privacyFirstTitle": "Privacy first",
+      "privacyFirstDesc": "PDFTrusted is designed so everyday PDF work stays on your device whenever the selected tool allows it. This policy explains what we do when you browse the site, when you optionally authenticate, and how third-party infrastructure fits in.",
+      "clientTitle": "Browser-based processing",
+      "clientDesc": "Many tools process files directly in your browser. In those cases, the contents of your PDF are not sent to our application servers for conversion logic. You should still avoid processing highly sensitive documents on shared or untrusted devices.",
+      "storageTitle": "No PDF “library” for users",
+      "storageDesc": "We do not operate a consumer cloud storage product for your PDFs. Outputs are generated for you to download; we do not keep a personal document archive tied to casual site use.",
+      "secureTitle": "Security practices",
+      "secureItem1": "We use HTTPS for the public site at https://pdftrusted.com.",
+      "secureItem2": "Core tools do not require an account. If you choose Google sign-in, only the profile data described below is used.",
+      "secureItem3": "Infrastructure providers may process network signals (for example IP metadata) as part of delivering the service; see “Hosting & sessions”.",
+      "googleOAuthTitle": "Google sign-in (OAuth 2.0)",
+      "googleOAuthIntro": "If you choose “Sign in with Google,” authentication is handled by Google and by Auth.js (JWT sessions) on our side. We use this flow only to recognize your account on PDFTrusted — not to read the contents of your Google Drive or Gmail.",
+      "googleOAuthItem1": "Data received from Google typically includes a stable subject identifier, email address, and name as permitted by your Google account settings.",
+      "googleOAuthItem2": "We store this sign-in information only insofar as needed to maintain your session (for example inside signed session cookies / JWT claims such as user id, email, and display name).",
+      "googleOAuthItem3": "Google’s processing of your credentials is governed by Google’s policies; please review Google Account security and privacy controls separately.",
+      "googleOAuthItem4": "You can stop using Google sign-in at any time by signing out and, if you wish, revoking PDFTrusted’s access from your Google account settings.",
+      "googleOAuthItem5": "We do not sell your Google profile data and we do not use your PDF file contents for advertising personalization.",
+      "hostingTitle": "Hosting, sessions, and storage",
+      "hostingDesc": "The website and API are served from Cloudflare’s globally distributed network (“the edge”). Static pages (such as this Privacy Policy) are pre-built files without a traditional SQL database dependency. Session cookies issued for authentication are HTTP-only and scoped for secure use with our origin. If you use email/password registration where offered, minimal account records may be stored in Cloudflare R2 as small encrypted or hashed artifacts — not mixed with your PDF processing buffers.",
+      "contactPrivacyTitle": "Contact",
+      "contactPrivacyDesc": "Questions about this policy: support@pdftrusted.com. Please include enough detail for us to help, without attaching confidential documents unless we explicitly request them."
+    },
+    "faq": {
+      "storeQ": "Does PDFTrusted store my files?",
+      "storeA": "We do not provide a personal PDF hosting product. For typical browser tools, files are used transiently for processing and are not kept as an ongoing library on our servers.",
+      "collectQ": "What data does PDFTrusted collect?",
+      "collectA": "Beyond standard web telemetry that hosting and analytics partners may collect (such as IP-derived data, user agent, and security logs), we only receive personal identifiers when you authenticate. With Google OAuth we may process your Google user id, email, and name to maintain your session. We do not use your document text to build user profiles.",
+      "adsQ": "Will ads affect my privacy?",
+      "adsA": "Google AdSense may serve ads on PDFTrusted. Ad delivery is governed by Google’s advertising policies and your Google ad settings. PDF processing for supported tools remains separate from ad targeting logic."
+    }
+  },
+  "termsPage": {
+    "title": "Terms of Service",
+    "subtitle": "These Terms govern your use of PDFTrusted at https://pdftrusted.com. By using the site, you agree to this agreement and our Privacy Policy.",
+    "sections": {
+      "usingTitle": "Using PDFTrusted",
+      "usingDesc": "PDFTrusted provides online PDF utilities intended for lawful personal and business use. You agree not to misuse the service, not to attempt to disrupt or probe our infrastructure beyond normal browsing, and not to use automated means to overload the site without written permission.",
+      "responsibilityTitle": "Your content and compliance",
+      "responsibilityDesc": "You are solely responsible for the legality of the documents you process and for obtaining any necessary rights from third parties. Do not use PDFTrusted to violate copyright, export controls, privacy laws, or any applicable regulation.",
+      "availabilityTitle": "Availability and changes",
+      "availabilityDesc": "We strive to keep the service online but do not guarantee uninterrupted access. Features may change, rotate, or be retired as we improve the product. The canonical public site is https://pdftrusted.com; www.pdftrusted.com may redirect to this origin.",
+      "thirdPartyTitle": "Third-party services",
+      "thirdPartyDesc": "PDFTrusted relies on vendors such as Cloudflare (network and object storage where configured), Google (optional OAuth sign-in and advertising where enabled), and analytics or error-reporting tools you can control via browser settings. Those vendors process limited technical data under their own terms.",
+      "accountsTitle": "Accounts",
+      "accountsDesc": "Some features may require authentication. If you create a credential-based account where offered, you are responsible for safeguarding your password. If you use Google OAuth, your use of Google’s login service remains subject to Google’s terms. You must provide accurate information and notify us if you become aware of unauthorized account use.",
+      "serviceHostTitle": "No warranty",
+      "serviceHostDesc": "THE SERVICE IS PROVIDED “AS IS” WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT RESULTS WILL BE ERROR-FREE OR SUITABLE FOR LEGAL, MEDICAL, OR REGULATED USE CASES.",
+      "liabilityTitle": "Limitation of liability",
+      "liabilityDesc": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, PDFTRUSTED AND ITS OPERATORS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, OR FOR LOSS OF PROFITS, DATA, OR GOODWILL, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF THE SITE. OUR AGGREGATE LIABILITY FOR ANY CLAIM RELATING TO THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE AMOUNTS YOU PAID US IN THE TWELVE MONTHS BEFORE THE CLAIM OR (B) FIFTY U.S. DOLLARS (US$50) IF YOU HAVE NOT PAID US."
+    },
+    "faq": {
+      "freeQ": "Is PDFTrusted free to use?",
+      "freeA": "Yes. Core PDF tools are available for free. We offer a transparent service with no hidden costs for basic document processing.",
+      "uploadQ": "What should I not upload?",
+      "uploadA": "Avoid uploading highly sensitive or confidential documents if you are concerned about privacy. Although PDFTrusted protects files locally, you should always use best judgment for sensitive content.",
+      "businessQ": "Can I use PDFTrusted for business documents?",
+      "businessA": "Yes. PDFTrusted is designed for both personal and professional use, but it is not a substitute for specialized enterprise-grade document management systems."
+    }
+  },
+  "tools": {
+    "compress-pdf": {
+      "label": "压缩 PDF",
+      "desc": "减小 PDF 文件大小"
+    },
+    "pdf-editor": {
+      "label": "PDF 编辑器",
+      "desc": "编辑和批注 PDF"
+    },
+    "translate-pdf": {
+      "label": "PDF 文本提取",
+      "desc": "从 PDF 中本地提取文本"
+    },
+    "ocr-pdf": {
+      "label": "OCR PDF",
+      "desc": "从扫描 PDF 中提取文本"
+    },
+    "fill-pdf": {
+      "label": "填写 PDF",
+      "desc": "填写并保存 PDF 表单"
+    },
+    "compress-images": {
+      "label": "压缩图片",
+      "desc": "批量缩小图片大小"
+    },
+    "enhance-image": {
+      "label": "增强图像",
+      "desc": "提升图像清晰度与色彩"
+    },
+    "merge-pdf": {
+      "label": "合并 PDF",
+      "desc": "合并多个 PDF"
+    },
+    "split-pdf": {
+      "label": "拆分 PDF",
+      "desc": "从 PDF 中提取页面"
+    },
+    "rotate-pdf": {
+      "label": "旋转 PDF",
+      "desc": "校正页面方向"
+    },
+    "merge-images": {
+      "label": "合并图片",
+      "desc": "把图片合并为一个文档"
+    },
+    "pdf-to-word": {
+      "label": "PDF 转 Word",
+      "desc": "将 PDF 文本导出为可编辑文档"
+    },
+    "pdf-to-image": {
+      "label": "PDF 转图片",
+      "desc": "将 PDF 页面转换为 JPG/PNG"
+    },
+    "pdf-to-png": {
+      "label": "PDF 转 PNG",
+      "desc": "将 PDF 页面导出为 PNG"
+    },
+    "pdf-to-epub": {
+      "label": "PDF 转 EPUB",
+      "desc": "将 PDF 转为 EPUB 电子书"
+    },
+    "pdf-to-jpg": {
+      "label": "PDF 转 JPG",
+      "desc": "将 PDF 页面保存为 JPG"
+    },
+    "pdf-to-pptx": {
+      "label": "PDF 转 PPTX",
+      "desc": "将 PDF 转为 PowerPoint"
+    },
+    "pdf-to-excel": {
+      "label": "PDF 转 Excel",
+      "desc": "将 PDF 表格转为 Excel"
+    },
+    "pdf-maker": {
+      "label": "PDF 制作",
+      "desc": "从文本创建 PDF"
+    },
+    "word-to-pdf": {
+      "label": "Word 转 PDF",
+      "desc": "将 Word 文档转为 PDF"
+    },
+    "png-to-pdf": {
+      "label": "PNG 转 PDF",
+      "desc": "将 PNG 图片合并为 PDF"
+    },
+    "epub-to-pdf": {
+      "label": "EPUB 转 PDF",
+      "desc": "将 EPUB 电子书转为 PDF"
+    },
+    "jpg-to-pdf": {
+      "label": "JPG 转 PDF",
+      "desc": "将 JPG 图片合并为 PDF"
+    },
+    "pptx-to-pdf": {
+      "label": "PPTX 转 PDF",
+      "desc": "将 PowerPoint 转为 PDF"
+    },
+    "excel-to-pdf": {
+      "label": "Excel 转 PDF",
+      "desc": "将 Excel 表格转为 PDF"
+    },
+    "unlock-pdf": {
+      "label": "解锁 PDF",
+      "desc": "移除 PDF 密码与限制"
+    },
+    "watermark-pdf": {
+      "label": "添加水印",
+      "desc": "为 PDF 加上水印"
+    },
+    "page-numbers": {
+      "label": "页码",
+      "desc": "为 PDF 添加页码"
+    },
+    "sign-pdf": {
+      "label": "在线签署 PDF — 安全电子签名",
+      "desc": "免费安全的 PDF 签名工具：手写、键入或上传签名,在浏览器中私密导出。"
+    },
+    "remove-watermark": {
+      "label": "局部修复 (离线)",
+      "desc": "图片和 PDF 的本地水印修补"
+    },
+    "generate-qr-code": {
+      "label": "QR 码生成器 — 免费快速",
+      "desc": "为链接、菜单和活动生成高清 PNG/SVG 二维码 — 直接从浏览器导出。"
+    },
+    "ai-scanner": {
+      "label": "文档扫描仪",
+      "desc": "将照片处理为整洁扫描件 — 浏览器内离线运行"
+    }
+  },
+  "seo": {
+    "generateQr": {
+      "title": "免费在线 QR 码生成器 — PNG 与 SVG 导出",
+      "desc": "面向网站和 PDF 的快速二维码生成器。自定义尺寸、PNG/SVG 下载、隐私优先 — PDFTrusted 免费 PDF 工具的一部分。"
+    }
+  },
+  "scanner": {
+    "seoTitle": "免费在线文档扫描仪 — 照片转 PDF (离线)",
+    "seoDesc": "面向收据和文档的在线扫描仪:自动亮度/对比度、透视裁剪和便携式导出。100% 浏览器内处理,OpenCV 风格算法 — 无需上传。",
+    "heroTitle": "文档扫描仪",
+    "heroSubtitle": "免费、安全的照片到扫描流水线 — 透视校正与增强完全在您的设备上运行。",
+    "languageLabel": "页面语言",
+    "dropLabel": "把文档照片放到此处",
+    "dropSub": "JPG、PNG 或 WebP — 在您的设备本地处理",
+    "original": "原始",
+    "result": "扫描结果",
+    "resultPlaceholder": "运行扫描以预览输出。",
+    "processingHint": "正在增强与对齐…",
+    "optionsTitle": "扫描选项",
+    "optPerspective": "自动透视与裁剪",
+    "optEnhance": "自动增强 (扫描风格)",
+    "optPortrait": "纵向方向",
+    "runScan": "扫描文档",
+    "processing": "处理中…",
+    "downloadPng": "下载 PNG",
+    "statusProcessing": "正在浏览器中安全处理您的扫描…",
+    "statusFootnote": "包含至少 {{seconds}} 秒可见的处理过程,以提供一致体验。",
+    "faqTitle": "扫描仪与隐私",
+    "faq1": "照片不会离开您的设备 — 检测与增强完全在浏览器中运行 (OpenCV.js + Canvas)。",
+    "faq2": "可能时会进行透视校正;否则仍会对整张照片应用增强。",
+    "faq3": "纵向模式将横向拍摄旋转以方便手机阅读;搭配 PDF 编辑器可获得最快的 PDF 工作流程。",
+    "errors": {
+      "generic": "无法处理此图片。请尝试另一张照片,或关闭透视校正。"
+    }
+  }
+}

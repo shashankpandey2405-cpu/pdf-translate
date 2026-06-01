@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-05-30T23:23:28.225Z",
+  "phase": "post-build",
+  "baseline": {
+    "totalClientJsBytes": 20153287,
+    "largestChunkBytes": 10789099,
+    "largestChunkName": "vendor-opencv.03e1b9dab1b9ba2a.js"
+  },
+  "current": {
+    "totalClientJsBytes": 20512796,
+    "largestChunkBytes": 10789099,
+    "largestChunkName": "vendor-opencv.03e1b9dab1b9ba2a.js"
+  },
+  "deltaBytes": {
+    "total": 359509,
+    "largestChunk": 0
+  },
+  "deltaPercent": {
+    "total": 1.7838727746992338,
+    "largestChunk": 0
+  }
+}

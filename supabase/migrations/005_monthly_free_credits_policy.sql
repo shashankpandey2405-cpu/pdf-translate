@@ -1,0 +1,12 @@
+-- PdfTrusted free-tier credits policy (application-enforced)
+--
+-- No new tables required. Ensure 001_credit_ledger.sql is applied:
+--   credit_accounts, credit_transactions, credit_holds
+--
+-- Free signed-in users receive 10 credits/month (UTC month) via server/credits/ledger.ts
+-- Browser PDF tools remain free without login.
+-- Cloud + AI jobs deduct credits (see server/credits/calculator.ts).
+--
+-- Optional: inspect grants
+-- select user_id, amount, meta->>'month' as month, created_at
+-- from credit_transactions where type = 'grant' order by created_at desc limit 20;

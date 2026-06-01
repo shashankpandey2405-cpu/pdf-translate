@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PDFTrusted — 360° Production Audit Report</title>
+  <style>
+    @page { margin: 18mm 16mm; size: A4; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      color: #1a1a1a;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 12mm 0;
+    }
+    h1 { font-size: 20pt; border-bottom: 2px solid #2563eb; padding-bottom: 0.3em; page-break-after: avoid; }
+    h2 { font-size: 14pt; margin-top: 1.4em; color: #1e40af; page-break-after: avoid; }
+    h3 { font-size: 11.5pt; page-break-after: avoid; }
+    table { border-collapse: collapse; width: 100%; margin: 0.8em 0; font-size: 9.5pt; }
+    th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f1f5f9; }
+    tr { page-break-inside: avoid; }
+    code { font-family: Consolas, "Courier New", monospace; font-size: 9pt; background: #f1f5f9; padding: 1px 4px; border-radius: 3px; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 10px 12px; border-radius: 6px; overflow-x: auto; font-size: 8.5pt; page-break-inside: avoid; }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    blockquote { border-left: 4px solid #94a3b8; margin: 0.8em 0; padding-left: 12px; color: #475569; }
+    hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.5em 0; }
+    a { color: #2563eb; text-decoration: none; }
+    ul, ol { padding-left: 1.4em; }
+    li { margin: 0.2em 0; }
+    p { margin: 0.5em 0; }
+  </style>
+</head>
+<body>
+<h1>PDFTrusted — Complete 360° Technical Intelligence Report</h1>
+<p><strong>Document version:</strong> 2.0<br><strong>Audit date:</strong> 20 May 2026<br><strong>Project:</strong> PDFTrusted (<code>pdftrusted</code> + <code>backend-service</code>)<br><strong>Stack:</strong> Next.js 15 · Vercel · Supabase · Railway Redis · Cloudflare R2 · Railway Workers (7 pools)<br><strong>Auditor role:</strong> Full-Stack · Security · DevOps · Database · OCR/PDF Infrastructure  </p>
+<p><strong>Related docs:</strong> <code>PRODUCTION-LAUNCH.md</code>, <code>OCR_COLOR_PRESERVATION.md</code>, <code>ENTERPRISE_PLATFORM_AUDIT.md</code>, <code>OSS_PDF_PLATFORM_BLUEPRINT.md</code></p>
+<hr>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#1-executive-summary">Executive Summary</a></li>
+<li><a href="#2-full-architecture-overview">Full Architecture Overview</a></li>
+<li><a href="#3-tool-by-tool-breakdown">Tool-by-Tool Breakdown</a></li>
+<li><a href="#4-browser-vs-cloud-processing-matrix">Browser vs Cloud Processing Matrix</a></li>
+<li><a href="#5-libraries--engines-report">Libraries &amp; Engines Report</a></li>
+<li><a href="#6-backend-analysis">Backend Analysis</a></li>
+<li><a href="#7-frontend-analysis">Frontend Analysis</a></li>
+<li><a href="#8-database--storage-analysis">Database &amp; Storage Analysis</a></li>
+<li><a href="#9-ocr--ai-systems">OCR &amp; AI Systems</a></li>
+<li><a href="#10-security-audit">Security Audit</a></li>
+<li><a href="#11-performance-audit">Performance Audit</a></li>
+<li><a href="#12-uxui-quality-audit">UX/UI Quality Audit</a></li>
+<li><a href="#13-infrastructure--deployment-review">Infrastructure &amp; Deployment Review</a></li>
+<li><a href="#14-missing-features">Missing Features</a></li>
+<li><a href="#15-scalability-recommendations">Scalability Recommendations</a></li>
+<li><a href="#16-technical-debt-report">Technical Debt Report</a></li>
+<li><a href="#17-production-readiness-score">Production Readiness Score</a></li>
+<li><a href="#18-critical-fix-priority-list">Critical Fix Priority List</a></li>
+<li><a href="#19-long-term-improvement-roadmap">Long-Term Improvement Roadmap</a></li>
+<li><a href="#appendix--cloud-job-flow">Appendix — Cloud Job Flow</a></li>
+<li><a href="#%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-%E0%A4%B8%E0%A4%BE%E0%A4%B0%E0%A4%BE%E0%A4%82%E0%A4%B6">हिंदी सारांश</a></li>
+</ol>
+<hr>
+<h2>1. Executive Summary</h2>
+<p>PDFTrusted is a <strong>hybrid PDF SaaS</strong>: most structural tools run <strong>entirely in the browser</strong> (privacy-first); <strong>13 tools</strong> offload to <strong>Railway Python workers</strong> via <strong>Redis queues</strong>, <strong>Cloudflare R2</strong>, and <strong>Supabase</strong> for auth, quotas, and job state.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Architecture</strong></td>
+<td>Mature split: Vercel orchestration + pool-isolated workers</td>
+</tr>
+<tr>
+<td><strong>Cloud OCR / compress / office</strong></td>
+<td>Production-grade OSS stack (OCRmyPDF, Ghostscript, LibreOffice)</td>
+</tr>
+<tr>
+<td><strong>Browser tools</strong></td>
+<td>Strong for merge/split/rotate; weak for layout conversions</td>
+</tr>
+<tr>
+<td><strong>AI / LLM</strong></td>
+<td><strong>None in production</strong> — translate/chat are extract-only or coming soon</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Good upload key scoping + worker HMAC; gaps on browser crypto &amp; MIME depth</td>
+</tr>
+<tr>
+<td><strong>Deploy readiness</strong></td>
+<td><strong>76 / 100</strong> — needs Railway redeploy (<code>59151f5+</code>), smoke 10/10, Vercel sync</td>
+</tr>
+</tbody></table>
+<p><strong>Strategic position:</strong> Real cloud document engine for OCR, compress, office, and security; browser tier is honest but must not be marketed as Acrobat-class conversion.</p>
+<p><strong>Catalog size:</strong> 42 tool slugs in <code>constants/tools.js</code>; <strong>36 live</strong>, <strong>6 coming soon</strong> (<code>constants/toolStatus.js</code>).</p>
+<hr>
+<h2>2. Full Architecture Overview</h2>
+<h3>2.1 Request flow (cloud)</h3>
+<pre><code>User browser
+  → Next.js API (Vercel)
+      → Presign upload → Cloudflare R2 (enhanced/input/{userId}/)
+      → POST /api/enhanced/jobs → Supabase processing_jobs + Redis LPUSH
+  → Railway worker (pool: ocr|docx|compress|excel|office|security|convert)
+      → RPOPLPUSH claim → download R2 → process → upload output
+      → POST /api/enhanced/worker/callback (HMAC + secret)
+  → User polls GET /api/enhanced/jobs/{id}
+  → Download GET /api/enhanced/jobs/{id}/download (same-origin proxy)
+</code></pre>
+<h3>2.2 Runtime layers</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hosting</td>
+<td>Vercel</td>
+<td>Next 15 App Router, API routes, cron</td>
+</tr>
+<tr>
+<td>Client router</td>
+<td>Wouter in <code>NextAppShell</code></td>
+<td>SPA tool UX (<code>src/App.tsx</code>)</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Supabase SSR</td>
+<td>OAuth, session cookies</td>
+</tr>
+<tr>
+<td>Queue</td>
+<td>Redis (Railway TCP)</td>
+<td><code>enhanced:queue:{pool}</code></td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>R2 (S3 API)</td>
+<td>Input/output object keys</td>
+</tr>
+<tr>
+<td>Workers</td>
+<td>Docker <code>Dockerfile.worker</code></td>
+<td><code>python -m app.queue.consumer {pool}</code></td>
+</tr>
+<tr>
+<td>Observability</td>
+<td><code>job_trace_events</code>, Sentry</td>
+<td>Pipeline stages</td>
+</tr>
+</tbody></table>
+<h3>2.3 Dual-build note (technical debt)</h3>
+<p>Production uses <strong>Next</strong> (<code>next build</code>). <strong>Vite</strong> remains in <code>package.json</code> (<code>dev:vite</code>, <code>vite-plugin-pwa</code>). PWA uses <code>public/sw.js</code> + <code>PwaUpdatePrompt</code>. Consolidate to one build path long-term.</p>
+<h3>2.4 Authoritative config files</h3>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tool tiers (browser/hybrid/cloud)</td>
+<td><code>src/lib/processing/toolProfiles.ts</code></td>
+</tr>
+<tr>
+<td>Engine stacks (OSS map)</td>
+<td><code>src/lib/processing/engineMatrix.ts</code></td>
+</tr>
+<tr>
+<td>Tool → worker pool</td>
+<td><code>server/enhanced/config.ts</code></td>
+</tr>
+<tr>
+<td>Worker routing</td>
+<td><code>backend-service/app/job_runner.py</code></td>
+</tr>
+<tr>
+<td>Tool catalog</td>
+<td><code>constants/tools.js</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. Tool-by-Tool Breakdown</h2>
+<h3>3.1 Edit &amp; compress</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Slug</th>
+<th>Route</th>
+<th>Processing</th>
+<th>Libraries / engine</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Compress PDF</td>
+<td><code>compress-pdf</code></td>
+<td><code>/compress-pdf</code></td>
+<td>Hybrid</td>
+<td>Browser: pdf-lib; Cloud: Ghostscript + qpdf</td>
+</tr>
+<tr>
+<td>PDF Editor</td>
+<td><code>pdf-editor</code></td>
+<td><code>/pdf-editor</code></td>
+<td>Browser</td>
+<td>pdf-lib, pdf.js, Fabric</td>
+</tr>
+<tr>
+<td>Translate PDF</td>
+<td><code>translate-pdf</code></td>
+<td><code>/translate-pdf</code></td>
+<td>Browser</td>
+<td>pdf.js text extract — <strong>no LLM</strong></td>
+</tr>
+<tr>
+<td>OCR PDF</td>
+<td><code>ocr-pdf</code></td>
+<td><code>/ocr-pdf</code></td>
+<td>Cloud only</td>
+<td>OCRmyPDF, Tesseract, OpenCV preprocess, PaddleOCR (ultra)</td>
+</tr>
+<tr>
+<td>Redact PDF</td>
+<td><code>redact-pdf</code></td>
+<td><code>/redact-pdf</code></td>
+<td>Hybrid</td>
+<td>Browser: pdf-lib; Cloud: PyMuPDF redaction</td>
+</tr>
+<tr>
+<td>Repair PDF</td>
+<td><code>repair-pdf</code></td>
+<td><code>/repair-pdf</code></td>
+<td>Browser</td>
+<td>pdf-lib → MuPDF WASM fallback</td>
+</tr>
+<tr>
+<td>Fill PDF</td>
+<td><code>fill-pdf</code></td>
+<td>—</td>
+<td>Coming soon</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Compress Images</td>
+<td><code>compress-images</code></td>
+<td>→ <code>/compress-pdf</code></td>
+<td>Coming soon</td>
+<td>Redirect</td>
+</tr>
+<tr>
+<td>Enhance Image</td>
+<td><code>enhance-image</code></td>
+<td>—</td>
+<td>Coming soon</td>
+<td>—</td>
+</tr>
+<tr>
+<td>AI Scanner</td>
+<td><code>ai-scanner</code></td>
+<td><code>/tools/ai-scanner</code></td>
+<td>Browser</td>
+<td>OpenCV.js, pdf-lib</td>
+</tr>
+</tbody></table>
+<h3>3.2 Split &amp; merge</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Processing</th>
+<th>Libraries</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>merge-pdf</td>
+<td>Browser + Web Worker</td>
+<td>pdf-lib, <code>pdfWorkerPool</code></td>
+</tr>
+<tr>
+<td>split-pdf</td>
+<td>Browser</td>
+<td>pdf-lib</td>
+</tr>
+<tr>
+<td>rotate-pdf</td>
+<td>Browser</td>
+<td>pdf-lib</td>
+</tr>
+<tr>
+<td>merge-images</td>
+<td>Coming soon</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3>3.3 Convert from PDF</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Processing</th>
+<th>Browser</th>
+<th>Cloud</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>universal-converter</td>
+<td>Browser</td>
+<td>pdf.js, jspdf, heuristics</td>
+<td>—</td>
+</tr>
+<tr>
+<td>pdf-to-word</td>
+<td>Hybrid</td>
+<td>pdf.js → RTF</td>
+<td>pdf2docx + LibreOffice</td>
+</tr>
+<tr>
+<td>pdf-to-image / jpg / png</td>
+<td>Hybrid</td>
+<td>pdf-engine</td>
+<td>PyMuPDF → ZIP</td>
+</tr>
+<tr>
+<td>pdf-to-excel</td>
+<td>Hybrid</td>
+<td>pdf.js → XLSX</td>
+<td>pdfplumber + Camelot</td>
+</tr>
+<tr>
+<td>pdf-to-pptx</td>
+<td>Cloud only</td>
+<td>—</td>
+<td>PyMuPDF + python-pptx</td>
+</tr>
+<tr>
+<td>pdf-to-html</td>
+<td>Browser</td>
+<td>pdf.js</td>
+<td>—</td>
+</tr>
+<tr>
+<td>pdf-to-epub</td>
+<td>Browser</td>
+<td>fflate + custom</td>
+<td>—</td>
+</tr>
+<tr>
+<td>chat-pdf</td>
+<td>Coming soon</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h3>3.4 Convert to PDF</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Processing</th>
+<th>Engine</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pdf-maker</td>
+<td>Browser</td>
+<td>pdf-lib</td>
+</tr>
+<tr>
+<td>word-to-pdf, pptx-to-pdf</td>
+<td>Cloud</td>
+<td>LibreOffice headless</td>
+</tr>
+<tr>
+<td>png/jpg-to-pdf</td>
+<td>Browser</td>
+<td>jspdf</td>
+</tr>
+<tr>
+<td>excel-to-pdf</td>
+<td>Browser</td>
+<td>custom + pdf-lib</td>
+</tr>
+<tr>
+<td>epub-to-pdf</td>
+<td>Coming soon</td>
+<td>Cloud profile disabled</td>
+</tr>
+</tbody></table>
+<h3>3.5 Student essentials</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Processing</th>
+<th>Stack</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document-scanner</td>
+<td>Browser</td>
+<td>Canvas + vision pipeline</td>
+</tr>
+<tr>
+<td>photo-resizer</td>
+<td>Browser</td>
+<td>Canvas</td>
+</tr>
+<tr>
+<td>resume-builder</td>
+<td>Browser</td>
+<td>Local storage + PDF export</td>
+</tr>
+</tbody></table>
+<h3>3.6 Sign &amp; security</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Processing</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>protect-pdf / unlock-pdf</td>
+<td>Hybrid</td>
+<td>Browser: pdf-lib (limited); Cloud: qpdf AES-256</td>
+</tr>
+<tr>
+<td>hard-lock-pdf</td>
+<td>Browser</td>
+<td>Rasterize/flatten</td>
+</tr>
+<tr>
+<td>watermark-pdf, page-numbers</td>
+<td>Browser</td>
+<td>pdf-lib</td>
+</tr>
+<tr>
+<td>sign-pdf</td>
+<td>Browser</td>
+<td>pdf-lib + signature canvas</td>
+</tr>
+<tr>
+<td>remove-watermark</td>
+<td>Browser</td>
+<td><code>/magic-eraser</code> — canvas erase</td>
+</tr>
+<tr>
+<td>generate-qr-code</td>
+<td>Browser</td>
+<td>qrcode.react</td>
+</tr>
+</tbody></table>
+<p><strong>UI shells:</strong> 27 dedicated pages in <code>src/route-pages/tools/</code>; others via <code>ToolPage.tsx</code> + <code>src/tools/toolPipeline/registry.ts</code>.</p>
+<hr>
+<h2>4. Browser vs Cloud Processing Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Approx. count</th>
+<th>Worker-backed slugs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Browser only</td>
+<td>~25 live</td>
+<td>merge, split, rotate, editor, sign, repair, html, epub, student, etc.</td>
+</tr>
+<tr>
+<td>Hybrid</td>
+<td>10 profiles</td>
+<td>compress, pdf-to-word/excel/image*, protect, unlock, redact</td>
+</tr>
+<tr>
+<td>Cloud only (active)</td>
+<td>4</td>
+<td>ocr-pdf, word-to-pdf, pptx-to-pdf, pdf-to-pptx</td>
+</tr>
+</tbody></table>
+<h3>Why this split?</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Browser</td>
+<td>Privacy, zero marginal cost, instant feedback, AdSense-friendly</td>
+</tr>
+<tr>
+<td>Cloud</td>
+<td>OCR, Ghostscript, LibreOffice, qpdf, table extraction</td>
+</tr>
+<tr>
+<td>Hybrid</td>
+<td>Free browser tier; Premium cloud for fidelity (50 MB / 50 pages)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. Libraries &amp; Engines Report</h2>
+<h3>5.1 Frontend (<code>package.json</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Version</th>
+<th>Purpose</th>
+<th>Grade</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>next</td>
+<td>15.5.18</td>
+<td>App + API</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>pdf-lib</td>
+<td>1.17.1</td>
+<td>Structural PDF</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>pdfjs-dist</td>
+<td>5.7.284</td>
+<td>Render + extract</td>
+<td>Production (heavy bundle)</td>
+</tr>
+<tr>
+<td>mupdf</td>
+<td>1.27.0</td>
+<td>Repair WASM</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>jspdf</td>
+<td>4.2.1</td>
+<td>Image → PDF</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>fabric</td>
+<td>7.3.1</td>
+<td>PDF editor</td>
+<td>Production (heavy)</td>
+</tr>
+<tr>
+<td>@techstark/opencv-js</td>
+<td>4.12</td>
+<td>Scanner</td>
+<td>Use with care (size)</td>
+</tr>
+<tr>
+<td>xlsx</td>
+<td>0.18.5</td>
+<td>Browser Excel</td>
+<td>Keep updated</td>
+</tr>
+<tr>
+<td>@supabase/ssr</td>
+<td>0.10.3</td>
+<td>Auth</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>ioredis</td>
+<td>5.10.1</td>
+<td>Vercel queue client</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>wouter</td>
+<td>3.3.5</td>
+<td>Client routes</td>
+<td>Production</td>
+</tr>
+</tbody></table>
+<h3>5.2 Backend (<code>backend-service</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Engine</th>
+<th>Role</th>
+<th>Grade</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ocrmypdf + Tesseract</td>
+<td>OCR</td>
+<td>Industry standard</td>
+</tr>
+<tr>
+<td>Ghostscript + qpdf</td>
+<td>Compress / security</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>LibreOffice</td>
+<td>Office → PDF</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>PyMuPDF</td>
+<td>Images, redact, inspect</td>
+<td>Production</td>
+</tr>
+<tr>
+<td>pdf2docx</td>
+<td>Word export</td>
+<td>Good; layout limits</td>
+</tr>
+<tr>
+<td>pdfplumber + Camelot</td>
+<td>Excel</td>
+<td>Production (Camelot optional build)</td>
+</tr>
+<tr>
+<td>OpenCV (Python)</td>
+<td>OCR preprocess</td>
+<td>Fixed RGB/BGR in <code>59151f5</code></td>
+</tr>
+<tr>
+<td>PaddleOCR</td>
+<td>Ultra OCR</td>
+<td>Optional <code>ENABLE_PADDLE_OCR=1</code></td>
+</tr>
+</tbody></table>
+<p><strong>Policy:</strong> No paid APIs (Adobe, Aspose, OpenAI) in production dependency tree.</p>
+<hr>
+<h2>6. Backend Analysis</h2>
+<h3>6.1 API routes (<code>app/api/</code> — 30 routes)</h3>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Routes</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Enhanced</td>
+<td>presign, jobs, jobs/[id], download, callback, usage, health</td>
+<td>Job lifecycle</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>auth/[...slug]</td>
+<td>Supabase session</td>
+</tr>
+<tr>
+<td>R2 / multipart</td>
+<td>presign-put, multipart/*, delete-staged</td>
+<td>Large uploads</td>
+</tr>
+<tr>
+<td>Account</td>
+<td>register, forgot/reset password</td>
+<td>Email (Resend)</td>
+</tr>
+<tr>
+<td>Cron</td>
+<td>cron/r2-staging-purge</td>
+<td>Purge, DLQ, stuck jobs</td>
+</tr>
+<tr>
+<td>Internal</td>
+<td>internal/job-trace</td>
+<td>Ops (gated)</td>
+</tr>
+</tbody></table>
+<h3>6.2 Worker pools</h3>
+<table>
+<thead>
+<tr>
+<th>Pool</th>
+<th>Pipelines</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ocr</td>
+<td>ocr.py, ocr_preprocess.py, paddle_ocr.py</td>
+<td>PDF</td>
+</tr>
+<tr>
+<td>docx</td>
+<td>docx.py, layout_analyze.py</td>
+<td>DOCX</td>
+</tr>
+<tr>
+<td>excel</td>
+<td>excel.py, statement_parse.py</td>
+<td>XLSX</td>
+</tr>
+<tr>
+<td>compress</td>
+<td>compress.py</td>
+<td>PDF</td>
+</tr>
+<tr>
+<td>office</td>
+<td>office.py</td>
+<td>PDF</td>
+</tr>
+<tr>
+<td>security</td>
+<td>pdf_security.py</td>
+<td>PDF</td>
+</tr>
+<tr>
+<td>convert</td>
+<td>convert.py, pdf_images.py, pdf_to_pptx.py</td>
+<td>ZIP / PPTX</td>
+</tr>
+</tbody></table>
+<h3>6.3 Queue semantics</h3>
+<ul>
+<li>Enqueue: Vercel <code>LPUSH</code> → <code>enhanced:queue:{pool}</code></li>
+<li>Claim: Worker <code>RPOPLPUSH</code></li>
+<li>Retries: Max 3 → <code>enhanced:dead:{pool}</code></li>
+<li>Orphan recovery: Cron <code>requeueOrphanedProcessing</code> (900s)</li>
+</ul>
+<h3>6.4 Weak points</h3>
+<ol>
+<li>Single Redis — burst fairness limited to IP/user caps  </li>
+<li>Subprocess-bound workers — scale via Railway replicas  </li>
+<li><code>docling_optional.py</code> not wired to job_runner  </li>
+<li>Encrypted PDF rejected except security pool — UX must explain</li>
+</ol>
+<hr>
+<h2>7. Frontend Analysis</h2>
+<h3>7.1 Structure</h3>
+<ul>
+<li>App Router: <code>app/[locale]/[[...path]]/page.tsx</code> → <code>NextAppShell</code> → Wouter <code>App.tsx</code></li>
+<li>i18n: en, hi, zh, ar, es, fr, de</li>
+<li>Contexts: Process, ProcessingMode, Premium, AuthPrompt, WorkspaceHistory, TrustShield, PWA</li>
+</ul>
+<h3>7.2 Key patterns</h3>
+<ul>
+<li><code>SinglePdfToolShell</code> — upload → process → result (before/after previews)</li>
+<li><code>usePremiumCloudRun</code> — cloud job + <code>idb-keyval</code> lifecycle</li>
+<li><code>MIN_PROCESSING_DURATION_MS = 3000</code> — artificial minimum UX delay</li>
+</ul>
+<h3>7.3 Issues</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Severity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PDF Editor bundle on mobile</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Next + Wouter dual routing</td>
+<td>Medium (complexity)</td>
+</tr>
+<tr>
+<td>Coming soon in some nav surfaces</td>
+<td>Medium (trust)</td>
+</tr>
+<tr>
+<td>opencv-js on main thread</td>
+<td>Medium (jank)</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>8. Database &amp; Storage Analysis</h2>
+<h3>8.1 Supabase tables</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>profiles, subscriptions</td>
+<td>User tier</td>
+</tr>
+<tr>
+<td>user_usage</td>
+<td>Daily enhanced/browser counts</td>
+</tr>
+<tr>
+<td>user_usage_monthly, user_usage_totals</td>
+<td>Rollups</td>
+</tr>
+<tr>
+<td>processing_jobs</td>
+<td>Cloud job state</td>
+</tr>
+<tr>
+<td>job_trace_events</td>
+<td>Pipeline audit</td>
+</tr>
+<tr>
+<td>login_events</td>
+<td>Auth audit (IP hash)</td>
+</tr>
+</tbody></table>
+<p><strong>RLS:</strong> Users read own data; writes via <strong>service role</strong> from Vercel API.</p>
+<h3>8.2 R2 lifecycle</h3>
+<pre><code>enhanced/input/{userId}/{jobId}-file   → worker reads
+enhanced/output/{userId}/{jobId}.ext   → download via API proxy → cron purge
+</code></pre>
+<p><strong>Worker temp:</strong> <code>TMP_ROOT/{jobId}/</code> (Python cleanup).<br><strong>DB stores:</strong> metadata only, not file bytes.</p>
+<hr>
+<h2>9. OCR &amp; AI Systems</h2>
+<h3>9.1 OCR (cloud only)</h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Component</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Preprocess (optional)</td>
+<td>OpenCV LAB on L channel; RGB→BGR before JPEG</td>
+</tr>
+<tr>
+<td>Primary</td>
+<td>OCRmyPDF + Tesseract</td>
+</tr>
+<tr>
+<td>Color</td>
+<td><code>LeaveColorUnchanged</code>; <code>*_preserve</code> modes with <code>--optimize 0</code></td>
+</tr>
+<tr>
+<td>Modes</td>
+<td>fast, balanced, accurate, clean_scan, ultra (PaddleOCR)</td>
+</tr>
+<tr>
+<td>Frontend options</td>
+<td><code>ocrPreserveColors</code>, <code>ocrPreprocess</code>, <code>ocrMode</code>, etc.</td>
+</tr>
+</tbody></table>
+<p><strong>Deploy:</strong> Railway <code>pdftrusted-worker-ocr</code> @ <code>backend-service</code> commit <code>59151f5+</code>.</p>
+<h3>9.2 AI / LLM</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>chat-pdf</td>
+<td>Coming soon — no RAG/LLM</td>
+</tr>
+<tr>
+<td>translate-pdf</td>
+<td>Text extract only</td>
+</tr>
+<tr>
+<td>ai-scanner</td>
+<td>OpenCV vision, not generative AI</td>
+</tr>
+</tbody></table>
+<p><strong>No OpenAI/Anthropic/Gemini</strong> in production dependencies.</p>
+<hr>
+<h2>10. Security Audit</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Finding</th>
+<th>Severity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Upload key prefix</td>
+<td><code>enhanced/input/{userId}/</code> enforced</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Output key prefix</td>
+<td>Callback validates output path</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Worker auth</td>
+<td>Secret + HMAC signature</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Cron</td>
+<td>CRON_SECRET Bearer in prod</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Internal routes</td>
+<td>ALLOW_INTERNAL_OPS + localhost</td>
+<td>Low if false in prod</td>
+</tr>
+<tr>
+<td>debug/agent-log</td>
+<td>404 unless QA mode</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Browser protect/unlock</td>
+<td>pdf-lib ≠ Acrobat encryption</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Presign MIME</td>
+<td>Size/filename; magic bytes on worker</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Service role key</td>
+<td>High impact if leaked</td>
+<td>High (standard)</td>
+</tr>
+<tr>
+<td>Rate limits</td>
+<td>2 enhanced/day, IP caps, browser limits</td>
+<td>Low</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>11. Performance Audit</h2>
+<table>
+<thead>
+<tr>
+<th>Bottleneck</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Large JS (pdf.js, fabric, opencv)</td>
+<td>Route-level code splitting</td>
+</tr>
+<tr>
+<td>3s min processing delay</td>
+<td>Make optional per tool</td>
+</tr>
+<tr>
+<td>OCR worker CPU</td>
+<td>Scale ocr replicas</td>
+</tr>
+<tr>
+<td>Download via Vercel proxy</td>
+<td>Acceptable for CORS; monitor egress</td>
+</tr>
+<tr>
+<td>Trace writes to Supabase</td>
+<td>Sample at scale</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>12. UX/UI Quality Audit</h2>
+<p><strong>Strengths:</strong> Before/after cloud previews; processing badges; Trust Shield; 7 locales; PWA; AdSense + consent gating.</p>
+<p><strong>Gaps:</strong> Show which path (browser vs cloud) on result; hide coming-soon from sitemap/nav; simplify mobile PDF Editor; OCR preserve/preprocess labels (fixed in <code>OcrPdf.tsx</code>).</p>
+<hr>
+<h2>13. Infrastructure &amp; Deployment Review</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vercel</td>
+<td>Frontend + API</td>
+</tr>
+<tr>
+<td>Railway</td>
+<td>7 workers + Redis</td>
+</tr>
+<tr>
+<td>Cloudflare R2</td>
+<td>Storage</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>Auth + Postgres</td>
+</tr>
+<tr>
+<td>Resend</td>
+<td>Account email</td>
+</tr>
+<tr>
+<td>Sentry</td>
+<td>Client errors</td>
+</tr>
+</tbody></table>
+<p><strong>Checklist:</strong> <code>docs/PRODUCTION-LAUNCH.md</code></p>
+<p><strong>Required:</strong> Redeploy all Railway workers @ <code>59151f5+</code>; Vercel prod; R2 PUT CORS; smoke 10/10.</p>
+<hr>
+<h2>14. Missing Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>UI</th>
+<th>Backend</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fill-pdf</td>
+<td>Coming soon</td>
+<td>—</td>
+</tr>
+<tr>
+<td>chat-pdf</td>
+<td>Coming soon</td>
+<td>No LLM</td>
+</tr>
+<tr>
+<td>epub-to-pdf</td>
+<td>Coming soon</td>
+<td>Cloud disabled</td>
+</tr>
+<tr>
+<td>compress/merge images, enhance-image</td>
+<td>Coming soon</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Auto-translate</td>
+<td>Future copy</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>Docling layout</td>
+<td>—</td>
+<td>Code exists, unwired</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>15. Scalability Recommendations</h2>
+<ol>
+<li>Per-pool autoscaling from queue depth  </li>
+<li>Redis monitoring at ~10k jobs/day  </li>
+<li>Trace event archival / sampling  </li>
+<li>CDN for pdf.worker + WASM  </li>
+<li>Priority queue for paid tier  </li>
+<li>Regional R2 for enterprise</li>
+</ol>
+<hr>
+<h2>16. Technical Debt Report</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vite + Next dual toolchain</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Wouter inside Next</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Browser vs qpdf encryption mismatch</td>
+<td>High (document in UI)</td>
+</tr>
+<tr>
+<td>Stale ENTERPRISE_PLATFORM_AUDIT (Excel/PPT now live)</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>docling unwired</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>xlsx in browser for sensitive docs</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Coming-soon in marketing</td>
+<td>Medium</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>17. Production Readiness Score</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Score (/10)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cloud workers</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>API + auth + quotas</td>
+<td>8.5</td>
+</tr>
+<tr>
+<td>Browser core tools</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>Browser conversions honesty</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>Deploy docs + cron</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>Smoke / tests</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td>UX / trust</td>
+<td>7.5</td>
+</tr>
+</tbody></table>
+<h3>Overall: 76 / 100</h3>
+<p>Deployable with known limits; enterprise SLA requires green smoke + worker redeploy.</p>
+<hr>
+<h2>18. Critical Fix Priority List</h2>
+<table>
+<thead>
+<tr>
+<th>P</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P0</td>
+<td>Redeploy all Railway workers to <code>backend-service@59151f5+</code></td>
+</tr>
+<tr>
+<td>P0</td>
+<td>Internal cloud smoke → 10/10</td>
+</tr>
+<tr>
+<td>P1</td>
+<td><code>vercel --prod</code> with latest OCR UI</td>
+</tr>
+<tr>
+<td>P1</td>
+<td><code>NEXT_PUBLIC_ALLOW_INTERNAL_OPS=false</code> in production</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>R2 PUT CORS for production origins</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Marketing aligns with browser vs cloud matrix</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Coming-soon excluded from sitemap/nav</td>
+</tr>
+<tr>
+<td>P3</td>
+<td><code>npm run bundle:report</code> for editor/scanner</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>19. Long-Term Improvement Roadmap</h2>
+<p><strong>Phase A (0–4 weeks):</strong> Smoke + alerts; public processing matrix; document browser encryption limits.</p>
+<p><strong>Phase B (1–3 months):</strong> Docling or better pdf-to-word; EPUB cloud worker; Next-only build.</p>
+<p><strong>Phase C (3–6 months):</strong> Paid priority queue; optional 1-page browser OCR teaser; LLM chat only with explicit privacy model.</p>
+<p><strong>Phase D (enterprise):</strong> Retention policies, CMK, regional buckets, SOC2-oriented ops.</p>
+<hr>
+<h2>Appendix — Cloud Job Flow</h2>
+<ol>
+<li>Sign in → <code>POST /api/enhanced/presign</code> → PUT to R2  </li>
+<li><code>POST /api/enhanced/jobs</code> → Supabase row + Redis enqueue  </li>
+<li>Worker claims job → download → <code>process_job</code> → upload → callback  </li>
+<li>Client polls <code>GET /api/enhanced/jobs/{id}</code>  </li>
+<li>Download <code>GET /api/enhanced/jobs/{id}/download</code> (same-origin)  </li>
+<li>Cron purges stale R2 + fails stuck <code>processing</code> jobs</li>
+</ol>
+<h3>Cloud tool → pool map</h3>
+<table>
+<thead>
+<tr>
+<th>Tool slug</th>
+<th>Worker pool</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ocr-pdf</td>
+<td>ocr</td>
+</tr>
+<tr>
+<td>pdf-to-word</td>
+<td>docx</td>
+</tr>
+<tr>
+<td>pdf-to-excel</td>
+<td>excel</td>
+</tr>
+<tr>
+<td>compress-pdf</td>
+<td>compress</td>
+</tr>
+<tr>
+<td>word-to-pdf, pptx-to-pdf</td>
+<td>office</td>
+</tr>
+<tr>
+<td>protect-pdf, unlock-pdf, redact-pdf</td>
+<td>security</td>
+</tr>
+<tr>
+<td>pdf-to-image, pdf-to-png, pdf-to-jpg, pdf-to-pptx</td>
+<td>convert</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>हिंदी सारांश</h2>
+<ul>
+<li>कुल <strong>42 tools</strong> कैटलॉग में; <strong>36 live</strong>, <strong>6 जल्द आएंगे</strong>।  </li>
+<li><strong>13 tools</strong> Railway cloud workers पर चलते हैं।  </li>
+<li><strong>AI/LLM production में नहीं</strong> — translate सिर्फ text निकालता है।  </li>
+<li>Architecture: Vercel + Redis + R2 + Supabase + 7 workers — solid।  </li>
+<li><strong>अभी जरूरी:</strong> Railway redeploy (<code>59151f5+</code>), smoke 10/10, Vercel prod।  </li>
+<li>Production score <strong>76%</strong> — launch योग्य; browser conversion को Adobe-level advertise न करें।  </li>
+<li>OCR रंग bug fix: <code>docs/OCR_COLOR_PRESERVATION.md</code>।</li>
+</ul>
+<hr>
+<p><em>Generated from codebase scan — 20 May 2026. Re-run audit after major worker or tool changes.</em></p>
+
+</body>
+</html>

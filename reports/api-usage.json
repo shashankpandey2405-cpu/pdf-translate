@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "status": 401,
+  "body": {
+    "error": "unauthorized",
+    "message": "Sign in to use Enhanced Cloud Processing."
+  }
+}

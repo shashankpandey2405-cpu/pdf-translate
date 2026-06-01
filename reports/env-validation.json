@@ -1,0 +1,10 @@
+{
+  "at": "2026-05-19T10:52:28.905Z",
+  "missingCritical": 0,
+  "missingVercel": [],
+  "missingRailway": [],
+  "deprecatedPresent": [
+    "UPSTASH_REDIS_REST_URL",
+    "UPSTASH_REDIS_REST_TOKEN"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "status": 200,
+  "body": {
+    "ok": true,
+    "qaMode": false,
+    "checks": {
+      "redis": true,
+      "supabaseServiceRole": true,
+      "workerSecret": true
+    },
+    "queueDepth": {
+      "ocr": 0,
+      "docx": 0,
+      "compress": 1
+    },
+    "deadLetterDepth": {
+      "ocr": 0,
+      "docx": 0,
+      "compress": 0
+    }
+  },
+  "checks": {
+    "redis": true,
+    "supabaseServiceRole": true,
+    "workerSecret": true
+  },
+  "queueDepth": {
+    "ocr": 0,
+    "docx": 0,
+    "compress": 1
+  }
+}
