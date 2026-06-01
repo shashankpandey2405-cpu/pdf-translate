@@ -15,21 +15,19 @@ Build log must show `FROM node:22-bookworm-slim` — **not** Railpack.
 
 ## Option B — Railpack (if Dockerfile not available)
 
-Add **service variable** on `translate-worker` only:
-
-```text
-RAILPACK_CONFIG_FILE=railpack.worker.json
-```
-
-This skips `npm ci` + `npm run build` and runs `npm install` + `npm run worker:translate`.
-
-Optional overrides instead of config file:
+Add these **service variables** on `translate-worker` only (required):
 
 ```text
 RAILPACK_INSTALL_CMD=npm install --legacy-peer-deps --ignore-scripts
-RAILPACK_BUILD_CMD=echo skip-next-build
+RAILPACK_BUILD_CMD=echo pdftrusted-translate-worker-skip-next-build
 ```
 
-## After push
+Do **not** override install/build in `railpack.json` steps — that breaks `node_modules` copy.
 
-Redeploy and confirm latest commit on `master`. If logs still show `npm ci`, builder/config is wrong — use Option A or set `RAILPACK_CONFIG_FILE`.
+Optional:
+
+```text
+RAILPACK_CONFIG_FILE=railpack.json
+```
+
+Redeploy after setting variables. Build log should show `npm install` (not `npm ci`) and no `npm run build`.

@@ -3,15 +3,6 @@
   "packages": {
     "node": "22"
   },
-  "steps": {
-    "install": {
-      "commands": ["npm install --legacy-peer-deps --ignore-scripts"]
-    },
-    "build": {
-      "inputs": [{ "step": "install" }],
-      "commands": ["echo pdftrusted-translate-worker-skip-next-build"]
-    }
-  },
   "deploy": {
     "startCommand": "npm run worker:translate"
   }
