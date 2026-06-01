@@ -1,10 +1,35 @@
 # Railway: translate-worker service
 
 1. **GitHub repo:** `shashankpandey2405-cpu/pdf-translate` branch `master`
-2. **Config file path:** `railway.translate-worker.toml`
-3. **Builder:** Dockerfile (NOT Railpack / NOT Nixpacks)
-4. **Dockerfile path:** `docker/translate-worker/Dockerfile`
-5. **Start command:** `npm run worker:translate`
-6. **Redeploy** after each push to `master` — confirm latest commit message mentions `Dockerfile` or `fresh lockfile`.
 
-If build log shows **Railpack** or **`npm run build`**, the service is still on the wrong builder — fix step 3–4 in Settings.
+## Option A — Dockerfile (recommended)
+
+| Setting | Value |
+|---------|--------|
+| Config file path | `railway.translate-worker.toml` |
+| Builder | **Dockerfile** |
+| Dockerfile path | `docker/translate-worker/Dockerfile` |
+| Start command | `npm run worker:translate` |
+
+Build log must show `FROM node:22-bookworm-slim` — **not** Railpack.
+
+## Option B — Railpack (if Dockerfile not available)
+
+Add **service variable** on `translate-worker` only:
+
+```text
+RAILPACK_CONFIG_FILE=railpack.worker.json
+```
+
+This skips `npm ci` + `npm run build` and runs `npm install` + `npm run worker:translate`.
+
+Optional overrides instead of config file:
+
+```text
+RAILPACK_INSTALL_CMD=npm install --legacy-peer-deps --ignore-scripts
+RAILPACK_BUILD_CMD=echo skip-next-build
+```
+
+## After push
+
+Redeploy and confirm latest commit on `master`. If logs still show `npm ci`, builder/config is wrong — use Option A or set `RAILPACK_CONFIG_FILE`.
