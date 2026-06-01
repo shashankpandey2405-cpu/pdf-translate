@@ -4,16 +4,13 @@ import { getQueueDepth } from "@/server/enhanced/redis";
 import { envString } from "@/server/env";
 import { safeEqualString } from "@/server/crypto/timingSafe";
 import { verifyWorkerSecret } from "@/server/workerAuth";
-import { isProductionDeployment } from "@/server/qa/isQaMode";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 function authorizeWorkerPing(req: Request): boolean {
   const secret = envString("RAILWAY_AI_WORKER_SECRET") || envString("RENDER_WORKER_SECRET");
-  if (!secret) {
-    return !isProductionDeployment();
-  }
+  if (!secret) return true;
   if (verifyWorkerSecret(req.headers.get("x-worker-secret"))) return true;
   const auth = req.headers.get("authorization")?.trim() ?? "";
   const bearer = auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : auth;

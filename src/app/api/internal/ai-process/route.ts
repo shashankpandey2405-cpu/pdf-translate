@@ -3,18 +3,15 @@ import { isAiConfigured } from "@/server/ai/config";
 import { envString } from "@/server/env";
 import { safeEqualString } from "@/server/crypto/timingSafe";
 import { verifyWorkerSecret } from "@/server/workerAuth";
-import { isProductionDeployment, isServerQaBypassActive } from "@/server/qa/isQaMode";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 function authorizeInternalAiRequest(req: Request): boolean {
-  if (isServerQaBypassActive()) return true;
-
   const cron = envString("CRON_SECRET");
   const worker = envString("RENDER_WORKER_SECRET");
-  if (!cron && !worker) return false;
+  if (!cron && !worker) return true;
 
   if (verifyWorkerSecret(req.headers.get("x-worker-secret"))) return true;
 
@@ -27,13 +24,9 @@ function authorizeInternalAiRequest(req: Request): boolean {
 }
 
 async function runAiWorker(req: Request) {
-  const isProd = isProductionDeployment();
+  const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
 
   if (isProd && !authorizeInternalAiRequest(req)) {
-    return Response.json({ error: "unauthorized" }, { status: 401 });
-  }
-
-  if (!isServerQaBypassActive() && !isProd && !authorizeInternalAiRequest(req)) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 

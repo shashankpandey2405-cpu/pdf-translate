@@ -105,7 +105,6 @@ export async function drainPremiumQueuesToDefault(): Promise<Record<string, numb
     "security",
     "convert",
     "ai",
-    "translate",
   ] as WorkerPool[]) {
     const premiumKey = queueKeysForPool(pool, "premium");
     const defaultKey = queueKeysForPool(pool, "default");

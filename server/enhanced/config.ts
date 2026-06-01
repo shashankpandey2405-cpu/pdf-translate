@@ -1,8 +1,4 @@
 import { envString } from "@/server/env";
-import {
-  maxAiFileBytesForUser,
-  maxPagesAffordableWithCredits,
-} from "@/server/credits/aiWorkloadLimits";
 import { isRedisConfigured } from "@/server/redis/client";
 import { hasS3Credentials } from "@/server/s3";
 import { getAppEnv } from "@/server/types";
@@ -64,28 +60,14 @@ export const ENHANCED_PREMIUM_PAGE_LIMITS: Record<string, number> = {
   "ai-resume-builder": ENHANCED_PREMIUM_MAX_PAGES,
 };
 
-export type EnhancedLimitOptions = {
-  isPremium?: boolean;
-  /** Signed-in user available credits — scales page cap when set. */
-  creditAvailable?: number;
-  useTrial?: boolean;
-};
+export type EnhancedLimitOptions = { isPremium?: boolean };
 
 export function enhancedPageLimitForTool(
   slug: string,
   processingMode?: string,
   opts?: EnhancedLimitOptions,
 ): number {
-  if (processingMode === "ai_plus" || processingMode === "classic_mt") {
-    if (opts?.useTrial) {
-      return ENHANCED_AI_PAGE_LIMITS[slug] ?? 2;
-    }
-    if (opts?.isPremium) {
-      return ENHANCED_PREMIUM_PAGE_LIMITS[slug] ?? ENHANCED_PREMIUM_MAX_PAGES;
-    }
-    if (typeof opts?.creditAvailable === "number" && opts.creditAvailable > 0) {
-      return maxPagesAffordableWithCredits(slug, opts.creditAvailable, false);
-    }
+  if (processingMode === "ai_plus") {
     return ENHANCED_AI_PAGE_LIMITS[slug] ?? 2;
   }
   if (opts?.isPremium) {
@@ -102,12 +84,12 @@ export function enhancedMaxFileBytesForTool(
   processingMode?: string,
   opts?: EnhancedLimitOptions,
 ): number {
-  if (processingMode === "ai_plus" || processingMode === "classic_mt") {
-    return maxAiFileBytesForUser(
-      Boolean(opts?.isPremium),
-      opts?.creditAvailable ?? 0,
-      Boolean(opts?.useTrial),
-    );
+  if (processingMode === "ai_plus") {
+    if (opts?.isPremium) {
+      return ENHANCED_PREMIUM_MAX_FILE_BYTES;
+    }
+    const mb = Number(envString("AI_PLUS_MAX_FILE_MB", "15")) || 15;
+    return mb * 1024 * 1024;
   }
   if (opts?.isPremium) {
     return ENHANCED_PREMIUM_MAX_FILE_BYTES;
@@ -126,7 +108,6 @@ export const WORKER_POOLS = [
   "security",
   "convert",
   "ai",
-  "translate",
 ] as const;
 export type WorkerPool = (typeof WORKER_POOLS)[number];
 
@@ -160,8 +141,7 @@ export const ENHANCED_AI_PAGE_LIMITS: Record<string, number> = {
   "ai-question-gen": 5,
 };
 
-export function workerPoolForTool(slug: string, processingMode?: string): WorkerPool | null {
-  if (slug === "translate-pdf" && processingMode === "classic_mt") return "translate";
+export function workerPoolForTool(slug: string): WorkerPool | null {
   return TOOL_POOL_MAP[slug] ?? null;
 }
 

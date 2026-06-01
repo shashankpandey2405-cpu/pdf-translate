@@ -10,7 +10,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import {
   AI_TIER_COPY,
@@ -18,6 +25,7 @@ import {
   type SummaryLength,
   SUMMARY_LENGTH_LABELS,
 } from "@/lib/ai/summarizeTier";
+import { TRANSLATE_LANG_OPTIONS } from "@/lib/ai/translateLanguages";
 
 type Props = {
   open: boolean;
@@ -26,12 +34,15 @@ type Props = {
   onTierChange: (tier: AiSummarizeTier) => void;
   length: SummaryLength;
   onLengthChange: (length: SummaryLength) => void;
+  outputLang: string;
+  onOutputLangChange: (code: string) => void;
   isPremium: boolean;
-  onContinue: () => void;
+  onStart: () => void;
   onGoPricing: () => void;
+  starting?: boolean;
 };
 
-const LENGTH_STEPS: SummaryLength[] = ["short", "medium", "long"];
+const LENGTH_OPTIONS: SummaryLength[] = ["short", "medium", "long"];
 
 export function AiTierPickerModal({
   open,
@@ -40,72 +51,106 @@ export function AiTierPickerModal({
   onTierChange,
   length,
   onLengthChange,
+  outputLang,
+  onOutputLangChange,
   isPremium,
-  onContinue,
+  onStart,
   onGoPricing,
+  starting,
 }: Props) {
-  const lengthIndex = LENGTH_STEPS.indexOf(length);
   const advancedLocked = tier === "advanced" && !isPremium;
-
-  const handleSlider = (values: number[]) => {
-    const idx = values[0] ?? 1;
-    onLengthChange(LENGTH_STEPS[Math.min(2, Math.max(0, idx))] ?? "medium");
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>Choose how AI should summarize your PDF.</DialogDescription>
-        </DialogHeader>
+      <DialogContent className="max-h-[90vh] max-w-[min(680px,calc(100vw-2rem))] gap-0 overflow-y-auto p-0">
+        <div className="border-b border-border/60 px-6 py-5">
+          <DialogHeader className="space-y-1 text-left">
+            <DialogTitle className="text-lg">Summary settings</DialogTitle>
+            <DialogDescription className="text-sm">Choose length, AI mode, and output language.</DialogDescription>
+          </DialogHeader>
+        </div>
 
-        <div className="space-y-3 py-2">
-          <p className="text-sm font-medium">Length</p>
-          <Slider value={[lengthIndex]} min={0} max={2} step={1} onValueChange={handleSlider} className="w-full" />
-          <div className="flex justify-between text-xs text-muted-foreground">
-            {LENGTH_STEPS.map((step, i) => (
-              <span key={step} className={cn(i === lengthIndex && "font-semibold text-primary")}>
-                {SUMMARY_LENGTH_LABELS[step]}
-              </span>
-            ))}
+        <div className="space-y-6 px-6 py-5">
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium text-foreground">Summary length</legend>
+            <div className="flex flex-wrap gap-2">
+              {LENGTH_OPTIONS.map((opt) => (
+                <label
+                  key={opt}
+                  className={cn(
+                    "flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm transition-colors",
+                    length === opt
+                      ? "border-primary bg-primary/5 font-medium text-foreground"
+                      : "border-border hover:bg-muted/50",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    name="summary-length"
+                    className="sr-only"
+                    checked={length === opt}
+                    onChange={() => onLengthChange(opt)}
+                  />
+                  {SUMMARY_LENGTH_LABELS[opt]}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium text-foreground">Processing mode</legend>
+            <div className="space-y-2">
+              <ModeOption
+                selected={tier === "standard"}
+                icon={<Sun className="h-4 w-4" />}
+                title={AI_TIER_COPY.standard.title}
+                subtitle={AI_TIER_COPY.standard.subtitle}
+                onSelect={() => onTierChange("standard")}
+              />
+              <ModeOption
+                selected={tier === "advanced"}
+                icon={<Sparkles className="h-4 w-4 text-violet-500" />}
+                title={AI_TIER_COPY.advanced.title}
+                subtitle={AI_TIER_COPY.advanced.subtitle}
+                premium
+                onSelect={() => onTierChange("advanced")}
+              />
+            </div>
+            {advancedLocked ? (
+              <p className="text-xs text-amber-700 dark:text-amber-400">
+                Advanced AI requires Premium.
+              </p>
+            ) : null}
+          </fieldset>
+
+          <div className="space-y-2">
+            <Label htmlFor="summary-lang" className="text-sm font-medium">
+              Summary language
+            </Label>
+            <Select value={outputLang} onValueChange={onOutputLangChange}>
+              <SelectTrigger id="summary-lang" className="h-10">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {TRANSLATE_LANG_OPTIONS.map((l) => (
+                  <SelectItem key={l.code} value={l.code}>
+                    {l.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Processing mode</p>
-        <div className="space-y-2">
-          <TierCard
-            selected={tier === "standard"}
-            icon={<Sun className="h-5 w-5" />}
-            title={AI_TIER_COPY.standard.title}
-            subtitle={AI_TIER_COPY.standard.subtitle}
-            onClick={() => onTierChange("standard")}
-          />
-          <TierCard
-            selected={tier === "advanced"}
-            icon={<Sparkles className="h-5 w-5 text-violet-500" />}
-            title={AI_TIER_COPY.advanced.title}
-            subtitle={AI_TIER_COPY.advanced.subtitle}
-            premium
-            onClick={() => onTierChange("advanced")}
-          />
-        </div>
-
-        {advancedLocked ? (
-          <p className="text-xs text-amber-700 dark:text-amber-400">
-            Advanced AI is for Premium members. Upgrade to unlock the larger model.
-          </p>
-        ) : null}
-
-        <div className="flex justify-end gap-2 pt-2">
+        <div className="flex justify-end gap-2 border-t border-border/60 px-6 py-4">
           {advancedLocked ? (
             <Button type="button" onClick={onGoPricing} className="gap-2">
               <Crown className="h-4 w-4" />
               Get Premium
             </Button>
           ) : (
-            <Button type="button" onClick={onContinue} className="gap-2">
-              Continue →
+            <Button type="button" onClick={onStart} disabled={starting} className="min-w-[180px]">
+              {starting ? "Starting…" : "Start AI Processing"}
             </Button>
           )}
         </div>
@@ -114,31 +159,30 @@ export function AiTierPickerModal({
   );
 }
 
-function TierCard({
+function ModeOption({
   selected,
   icon,
   title,
   subtitle,
   premium,
-  onClick,
+  onSelect,
 }: {
   selected: boolean;
   icon: ReactNode;
   title: string;
   subtitle: string;
   premium?: boolean;
-  onClick: () => void;
+  onSelect: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
+    <label
       className={cn(
-        "flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors",
-        selected ? "border-primary bg-primary/5 ring-1 ring-primary/30" : "border-border hover:bg-muted/40",
+        "flex cursor-pointer items-start gap-3 rounded-xl border p-3 transition-colors",
+        selected ? "border-primary bg-primary/5 ring-1 ring-primary/20" : "border-border hover:bg-muted/40",
       )}
     >
-      {icon}
+      <input type="radio" name="ai-tier" className="mt-1" checked={selected} onChange={onSelect} />
+      <span className="text-primary">{icon}</span>
       <span className="flex-1">
         <span className="flex items-center gap-2 text-sm font-semibold">
           {title}
@@ -146,6 +190,6 @@ function TierCard({
         </span>
         <span className="mt-0.5 block text-xs text-muted-foreground">{subtitle}</span>
       </span>
-    </button>
+    </label>
   );
 }

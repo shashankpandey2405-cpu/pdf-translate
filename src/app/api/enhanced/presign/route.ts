@@ -12,12 +12,7 @@ import {
 } from "@/server/enhanced/config";
 import { resolveIsPremium } from "@/server/premiumEntitlement";
 import { isAiConfigured, parseProcessingMode, isAiToolSlug } from "@/server/ai/config";
-import { isClassicMtConfigured } from "@/server/translate/config";
-import { AI_LIFETIME_TRIAL_LIMIT } from "@/server/ai/config";
 import { assertCanRunAiPlus } from "@/server/ai/assertAiAccess";
-import { assertCanRunClassicMt } from "@/server/translate/assertClassicAccess";
-import { getAiTrialSnapshot } from "@/server/ai/usageLimits";
-import { getCreditBalance } from "@/server/credits/ledger";
 import { inputKeyForJob } from "@/server/enhanced/jobStore";
 import { assertCanStartEnhancedJob, getUsageSnapshot } from "@/server/enhanced/usageLimits";
 import { assertPresignRateLimit } from "@/server/enhanced/presignLimits";
@@ -70,21 +65,7 @@ async function postPresign(req: Request) {
   }
   const toolSlug = typeof body.toolSlug === "string" ? body.toolSlug : "";
   const processingMode = parseProcessingMode(body.processingMode);
-
-  let aiLimitOpts: { isPremium: boolean; creditAvailable: number; useTrial: boolean } | undefined;
-  if (
-    (processingMode === "ai_plus" || processingMode === "classic_mt") &&
-    toolSlug &&
-    isAiToolSlug(toolSlug)
-  ) {
-    const credits = await getCreditBalance(user.id, isPremium);
-    const aiTrial = await getAiTrialSnapshot(user.id);
-    const useTrial =
-      processingMode === "ai_plus" && AI_LIFETIME_TRIAL_LIMIT > 0 && aiTrial.trialRemaining > 0;
-    aiLimitOpts = { isPremium, creditAvailable: credits.available, useTrial };
-  }
-
-  const maxBytes = enhancedMaxFileBytesForTool(toolSlug, processingMode ?? undefined, aiLimitOpts);
+  const maxBytes = enhancedMaxFileBytesForTool(toolSlug, processingMode ?? undefined, { isPremium });
   if (size > maxBytes) {
     return Response.json(
       {
@@ -102,7 +83,7 @@ async function postPresign(req: Request) {
         ? body.pageCount
         : Number(body.pageCount);
   if (toolSlug && pageCount !== null && Number.isFinite(pageCount)) {
-    const pageCap = enhancedPageLimitForTool(toolSlug, processingMode ?? undefined, aiLimitOpts);
+    const pageCap = enhancedPageLimitForTool(toolSlug, processingMode ?? undefined, { isPremium });
     if (pageCount > pageCap) {
       return Response.json(
         {
@@ -135,29 +116,6 @@ async function postPresign(req: Request) {
     const gate = await assertCanRunAiPlus({
       userId: user.id,
       toolSlug,
-      pageCount: pages,
-      fileSizeBytes: size,
-      isPremium,
-    });
-    if (!gate.ok) {
-      return Response.json({ error: gate.code, message: gate.message }, { status: gate.status });
-    }
-  }
-
-  if (processingMode === "classic_mt" && toolSlug === "translate-pdf") {
-    if (!isClassicMtConfigured()) {
-      return Response.json(
-        {
-          error: "classic_mt_unavailable",
-          message: "Classic translation is not configured. Set TRANSLATE_MT_URL.",
-        },
-        { status: 503 },
-      );
-    }
-    const pages =
-      pageCount !== null && Number.isFinite(pageCount) ? Math.max(1, Math.floor(pageCount)) : 1;
-    const gate = await assertCanRunClassicMt({
-      userId: user.id,
       pageCount: pages,
       fileSizeBytes: size,
       isPremium,

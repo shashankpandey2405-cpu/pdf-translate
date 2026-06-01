@@ -1,12 +1,11 @@
 import { withSentryRoute } from "@/server/monitoring/withSentryRoute";
 import { requireApiUser } from "@/server/enhanced/auth";
-import { estimateAiCredits, estimateClassicMtCredits } from "@/server/credits/calculator";
+import { estimateAiCredits } from "@/server/credits/calculator";
 import { getCreditBalance } from "@/server/credits/ledger";
 import { getAiTrialSnapshot } from "@/server/ai/usageLimits";
 import { AI_LIFETIME_TRIAL_LIMIT, isAiToolSlug } from "@/server/ai/config";
 import { getAppEnv } from "@/server/types";
 import { resolveIsPremium } from "@/server/premiumEntitlement";
-import { resolveAiPlusLimits } from "@/server/credits/aiWorkloadLimits";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,45 +47,16 @@ async function postEstimate(req: Request) {
   const isPremium = await resolveIsPremium(req, env);
   const aiTrial = await getAiTrialSnapshot(user.id);
   const credits = await getCreditBalance(user.id, isPremium);
-  const processingMode =
-    body.processingMode === "classic_mt" ? "classic_mt" : "ai_plus";
 
-  const estimate =
-    processingMode === "classic_mt" && toolSlug === "translate-pdf"
-      ? estimateClassicMtCredits({
-          toolSlug,
-          pageCount,
-          totalChars,
-          fileSizeBytes,
-          isPremium,
-        })
-      : estimateAiCredits({
-          toolSlug,
-          pageCount,
-          totalChars,
-          fileSizeBytes,
-          isPremium,
-        });
+  const estimate = estimateAiCredits({
+    toolSlug,
+    pageCount,
+    totalChars,
+    fileSizeBytes,
+    isPremium,
+  });
 
-  const useTrial =
-    AI_LIFETIME_TRIAL_LIMIT > 0 &&
-    processingMode === "ai_plus" &&
-    aiTrial.trialRemaining > 0;
-
-  const limits =
-    processingMode === "ai_plus" || processingMode === "classic_mt"
-      ? resolveAiPlusLimits({
-          toolSlug,
-          isPremium,
-          creditAvailable: credits.available,
-          useTrial,
-        })
-      : null;
-
-  const withinLimits =
-    !limits ||
-    (pageCount <= limits.maxPages &&
-      (fileSizeBytes == null || fileSizeBytes <= limits.maxFileBytes));
+  const useTrial = AI_LIFETIME_TRIAL_LIMIT > 0 && aiTrial.trialRemaining > 0;
 
   return Response.json({
     toolSlug,
@@ -94,8 +64,6 @@ async function postEstimate(req: Request) {
     estimate: estimate.estimate,
     estimateHigh: estimate.estimateHigh,
     breakdown: estimate.breakdown,
-    maxPages: limits?.maxPages,
-    maxFileBytes: limits?.maxFileBytes,
     credits: {
       balance: credits.balance,
       available: credits.available,
@@ -104,14 +72,7 @@ async function postEstimate(req: Request) {
     },
     aiTrial,
     useTrial,
-    canProceed:
-      withinLimits && (useTrial || credits.available >= estimate.estimateHigh),
-    limitMessage:
-      !withinLimits && limits
-        ? pageCount > limits.maxPages
-          ? `Your credits support up to ${limits.maxPages} pages for this file.`
-          : `Your credits support files up to ${Math.round(limits.maxFileBytes / (1024 * 1024))} MB.`
-        : undefined,
+    canProceed: useTrial || credits.available >= estimate.estimateHigh,
   });
 }
 

@@ -38,7 +38,6 @@
     "qa:infra-report": "node scripts/generate-production-infra-report.mjs",
     "worker:health": "node backend-service/scripts/worker-healthcheck.mjs",
     "worker:ai": "tsx --tsconfig tsconfig.worker.json server/workers/runAiWorker.ts",
-    "worker:translate": "tsx --tsconfig tsconfig.worker.json server/workers/runTranslateWorker.ts",
     "tool-smoke": "node scripts/tool-smoke.mjs",
     "diagnostics:enhanced": "node scripts/diagnostics-enhanced.mjs",
     "env:wizard": "node scripts/env-wizard.mjs",

@@ -9,44 +9,28 @@ import { extractTextFromImage, isImageFile, isPdfFile } from "@/lib/ocr/imageOcr
 import { useFileSizeGate } from "@/hooks/useFileSizeGate";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { AiProcessingSteps } from "@/components/mobile/AiProcessingSteps";
 import { AIChatInterface } from "@/components/ai/AIChatInterface";
 import { ChatDocumentBriefPanel } from "@/components/ai/chat/ChatDocumentBriefPanel";
-import {
-  aiToolChatColumn,
-  aiToolChatFill,
-  aiToolChatPanelClass,
-  aiToolDesktopRoot,
-  aiToolDesktopRow,
-  aiToolPreviewColumnNarrow,
-} from "@/components/ai/aiToolLayout";
 import { AiPrivacyBadge } from "@/components/ai/AiPrivacyBadge";
-import { DeferredStartPanel } from "@/components/conversion/DeferredStartPanel";
 import { ProcessingStatus } from "@/components/processing/ProcessingStatus";
-import { ProcessingStatusOverlay } from "@/components/processing/ProcessingStatusOverlay";
-import { DesktopMiniSidebar } from "@/components/desktop/DesktopMiniSidebar";
 import { ToolPageSplit } from "@/components/desktop/ToolPageSplit";
 import { MobileToolLayout } from "@/components/mobile/MobileToolLayout";
-import { ToolInputPreview } from "@/components/tools/ToolInputPreview";
-import { MobileAiPreviewModal } from "@/components/mobile/MobileAiPreviewModal";
 import { useEnhancedJob } from "@/hooks/useEnhancedJob";
 import { usePremium } from "@/context/PremiumContext";
 import { useAuthAction } from "@/hooks/useAuthAction";
 import { useAuthPrompt, stashAuthIntent } from "@/context/AuthPromptContext";
 import { getPDFPageCount } from "@/components/PDFThumbnail";
-import {
-  MessageSquare,
-  Send,
-  FileText,
-  Sparkles,
-  RotateCcw,
-  Copy,
-  Check,
-} from "lucide-react";
+import { MessageSquare, Send, Sparkles, Copy, Check } from "lucide-react";
 import { SIGN_IN_REASON } from "@/lib/conversion/signInCopy";
 import { Button } from "@/components/ui/button";
 import { stashPremiumFlow, premiumFlowToFile } from "@/lib/auth/premiumFlowRestore";
 import { usePremiumFlowRestore } from "@/hooks/usePremiumFlowRestore";
+import { AiCompactFileStep } from "@/components/ai/workflow/AiCompactFileStep";
+import { AiProcessingFocus } from "@/components/ai/workflow/AiProcessingFocus";
+import { AiFocusShell } from "@/components/ai/workflow/AiFocusShell";
+import { AiChatResultActions } from "@/components/ai/workflow/AiChatResultActions";
+import { downloadChatTranscript, formatChatTranscript } from "@/lib/ai/exportChatTranscript";
+import { useTranslation } from "react-i18next";
 
 type ChatTurn = { role: "user" | "assistant"; content: string };
 type SessionData = {
@@ -59,7 +43,9 @@ type SessionData = {
 };
 
 export function ChatPdfWorkspace() {
+  const { i18n } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
+  const [pageCount, setPageCount] = useState<number | null>(null);
   const [session, setSession] = useState<SessionData | null>(null);
   const [jobId, setJobId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatTurn[]>([]);
@@ -71,12 +57,13 @@ export function ChatPdfWorkspace() {
   const processFileRef = useRef<File | null>(null);
 
   const enhancedJob = useEnhancedJob("chat-pdf");
-  const { isPremium, isSignedIn } = usePremium();
+  const { isPremium } = usePremium();
   const { resolveSignedIn } = useAuthAction();
   const { requestSignIn } = useAuthPrompt();
   const { compressOpen, setCompressOpen, blockedFile, blockedSizeMb, gateFile } = useFileSizeGate(isPremium);
 
   const busy = enhancedJob.status === "queued" || enhancedJob.status === "processing" || preparing;
+  const chatReady = Boolean(session && jobId);
 
   const pollSession = useCallback(async (id: string) => {
     for (let i = 0; i < 60; i += 1) {
@@ -143,7 +130,8 @@ export function ChatPdfWorkspace() {
         }
 
         const pages = await getPDFPageCount(f);
-        const toastId = toast.loading("Reading your document — clarifying scan & summarizing…");
+        setPageCount(pages);
+        const toastId = toast.loading("Reading your document…");
         const result = await enhancedJob.run(f, pages ?? null, {
           processingMode: "ai_plus",
           aiTier: "standard",
@@ -211,6 +199,15 @@ export function ChatPdfWorkspace() {
       setSession(null);
       setJobId(null);
       setMessages([]);
+      if (restored.type === "application/pdf") {
+        try {
+          setPageCount(await getPDFPageCount(restored));
+        } catch {
+          setPageCount(null);
+        }
+      } else {
+        setPageCount(1);
+      }
     },
     {
       onAutoStart: async () => {
@@ -221,7 +218,7 @@ export function ChatPdfWorkspace() {
   );
 
   const acceptUpload = useCallback(
-    (f: File) => {
+    async (f: File) => {
       if (!gateFile(f)) return;
       setFile(f);
       processFileRef.current = f;
@@ -229,6 +226,17 @@ export function ChatPdfWorkspace() {
       setJobId(null);
       setMessages([]);
       setPreparing(false);
+      if (isImageFile(f)) {
+        setPageCount(1);
+      } else if (isPdfFile(f)) {
+        try {
+          setPageCount(await getPDFPageCount(f));
+        } catch {
+          setPageCount(null);
+        }
+      } else {
+        setPageCount(null);
+      }
     },
     [gateFile],
   );
@@ -238,14 +246,14 @@ export function ChatPdfWorkspace() {
       const f = files[0];
       if (!f) return;
       if (isImageFile(f)) {
-        acceptUpload(f);
+        void acceptUpload(f);
         return;
       }
       if (!isPdfFile(f)) {
         toast.error("Unsupported file", { description: "Upload a PDF or a photo (JPG/PNG)." });
         return;
       }
-      acceptUpload(f);
+      void acceptUpload(f);
     },
     [acceptUpload],
   );
@@ -303,27 +311,38 @@ export function ChatPdfWorkspace() {
   const startOver = () => {
     setFile(null);
     processFileRef.current = null;
+    setPageCount(null);
     setSession(null);
     setJobId(null);
     setMessages([]);
     setPreparing(false);
   };
 
-  const chatReady = Boolean(session && jobId);
-  const awaitingStart = Boolean(file && !chatReady && !busy);
+  const languageLabel = i18n.language?.startsWith("hi")
+    ? "Hindi"
+    : i18n.language?.startsWith("ar")
+      ? "Arabic"
+      : "English";
 
-  const pendingStartPanel = (
-    <DeferredStartPanel
-      variant="ai"
-      guestCta="Continue with Google — Start chat"
-      signedInCta="Start chat with this PDF"
-      onStart={() => void startChatSession()}
-      loading={preparing}
-      disabled={busy}
-      isSignedIn={isSignedIn}
-      className="w-full max-w-md"
-    />
-  );
+  const exportChat = useCallback(() => {
+    if (!file) return;
+    const base = file.name.replace(/\.[^.]+$/, "");
+    downloadChatTranscript(messages, `${base}_chat.txt`, {
+      title: "Chat with PDF — PDFTrusted",
+      fileName: file.name,
+    });
+  }, [file, messages]);
+
+  const copyFullChat = useCallback(() => {
+    if (!file) return;
+    void navigator.clipboard.writeText(
+      formatChatTranscript(messages, { title: "Chat with PDF", fileName: file.name }),
+    );
+    toast.success("Chat copied to clipboard");
+  }, [file, messages]);
+
+  const progress =
+    enhancedJob.status === "queued" ? 25 : Math.min(95, 35 + (enhancedJob.progress ?? 0) * 0.6);
 
   const chatMessages = (
     <>
@@ -342,17 +361,17 @@ export function ChatPdfWorkspace() {
             <div className="rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 p-4">
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-primary" />
-                <h3 className="font-semibold text-foreground">Your PDF is ready</h3>
+                <h3 className="font-semibold text-foreground">Your document is ready</h3>
               </div>
               <p className="mt-1.5 text-sm text-muted-foreground">
-                Ask anything about this document. I&apos;ll answer using only what&apos;s in your file.
+                Ask anything about this document. Answers use only what&apos;s in your file.
               </p>
             </div>
           )}
           {session?.suggestedQuestions?.length ? (
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Try asking — based on what I read
+                Try asking
               </p>
               {session.suggestedQuestions.map((q) => (
                 <button
@@ -453,163 +472,117 @@ export function ChatPdfWorkspace() {
     </div>
   );
 
-  const chatPanel = (
-    <AIChatInterface
-      title="Chat with PDF"
-      statusOnline={!chatBusy}
-      statusLabel={chatBusy ? "Processing…" : "Neural AI Online"}
-      footer={chatInputFooter}
-      showPrivacyBadge={false}
-      className={aiToolChatPanelClass}
-    >
-      {chatMessages}
-    </AIChatInterface>
-  );
+  const mainContent = (() => {
+    if (busy) {
+      return (
+        <AiProcessingFocus
+          title="PDF Intelligence Engine"
+          progress={progress}
+          steps={["Analyzing document…", "Extracting content…", "Preparing chat…"]}
+        />
+      );
+    }
 
-  const mobilePanel = (
-      <div className="flex h-[calc(100dvh-3rem-3rem-env(safe-area-inset-top))] flex-col pb-[calc(5rem+env(safe-area-inset-bottom))]">
-        <div className="flex min-w-0 flex-1 flex-col">
-          {!file ? (
-            <div className="flex flex-1 flex-col p-4">
-              <AiPrivacyBadge className="mb-3" />
-              <h1 className="mb-1 text-lg font-bold">Chat with PDF</h1>
-              <p className="mb-3 text-xs text-muted-foreground">
-                Upload first — sign in only when you start chat.
-              </p>
-              <ProcessingStatusOverlay active={busy} type="ai" progress={enhancedJob.progress ?? 0}>
-                <MobileFileUpload
-                  onFiles={handleFiles}
-                  acceptPdf
-                  acceptImages
-                  isPremium={isPremium}
-                  disabled={busy}
-                  className="flex-1"
-                />
-              </ProcessingStatusOverlay>
+    if (chatReady && file) {
+      return (
+        <div className="flex min-h-[calc(100vh-4rem)] flex-col">
+          <header className="shrink-0 border-b border-border/60 bg-card/40 px-4 py-3 backdrop-blur-sm">
+            <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-foreground">{file.name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {pageCount != null ? `${pageCount} page${pageCount === 1 ? "" : "s"}` : "Document"}
+                  {" · "}
+                  {languageLabel}
+                </p>
+              </div>
             </div>
-          ) : awaitingStart ? (
-            <div className="flex flex-1 flex-col gap-4 p-4">
-              <ToolInputPreview file={file} toolSlug="chat-pdf" />
-              <MobileAiPreviewModal preview={{ kind: "file", file }} />
-              {pendingStartPanel}
-              <button
-                type="button"
-                onClick={startOver}
-                className="text-center text-xs text-muted-foreground underline"
+          </header>
+          <AiFocusShell maxWidth="chat" className="flex-1 !justify-start py-4">
+            <div className="flex h-[min(720px,calc(100dvh-11rem))] w-full flex-col">
+              <AIChatInterface
+                title="Chat with PDF"
+                statusOnline={!chatBusy}
+                statusLabel={chatBusy ? "Processing…" : "Neural AI Online"}
+                footer={chatInputFooter}
+                showPrivacyBadge={false}
+                className="h-full min-h-0"
               >
-                Choose a different file
-              </button>
+                {chatMessages}
+              </AIChatInterface>
             </div>
-          ) : busy ? (
-            <div className="flex flex-1 flex-col items-center justify-center p-4">
-              <AiProcessingSteps progress={enhancedJob.progress ?? 50} label="Analyzing document…" />
-            </div>
-          ) : chatReady ? (
-            <div className="flex min-h-0 flex-1 flex-col gap-3 p-3">
-              {file ? <MobileAiPreviewModal preview={{ kind: "file", file }} className="shrink-0" /> : null}
-              <div className="min-h-0 flex-1">{chatPanel}</div>
-            </div>
-          ) : null}
+            <AiChatResultActions
+              onCopy={messages.length > 0 ? copyFullChat : undefined}
+              onDownload={messages.length > 0 ? exportChat : undefined}
+              onExport={messages.length > 0 ? exportChat : undefined}
+              copyLabel="Copy chat"
+              downloadLabel="Download chat"
+              exportLabel="Export chat"
+              onReset={startOver}
+              resetLabel="New document"
+            />
+          </AiFocusShell>
         </div>
-      </div>
-  );
+      );
+    }
 
-  const desktopPanel = (
-      <div className={aiToolDesktopRoot}>
-        <DesktopMiniSidebar />
-        <div className={aiToolDesktopRow}>
-          <div className={aiToolPreviewColumnNarrow}>
-            <div className="flex min-h-0 flex-1 flex-col p-4">
-              <AiPrivacyBadge className="mb-3 shrink-0" />
-              <div className="mb-3 flex shrink-0 items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <h1 className="text-lg font-bold">Chat with PDF</h1>
-                </div>
-                {file ? (
-                  <Button variant="ghost" size="sm" onClick={startOver} className="h-8 gap-1 text-xs">
-                    <RotateCcw className="h-3.5 w-3.5" />
-                    New PDF
-                  </Button>
-                ) : null}
-              </div>
-              {!file ? (
-                <ProcessingStatusOverlay active={busy} type="ai" progress={enhancedJob.progress ?? 0}>
-                  <DropZone
-                    accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png,.webp"
-                    multiple={false}
-                    onFiles={handleFiles}
-                    className="min-h-[200px]"
-                    label="Drop PDF or photo"
-                    sublabel="No signup to upload — start chat when ready"
-                  />
-                </ProcessingStatusOverlay>
-              ) : (
-                <div className="flex min-h-0 flex-1 flex-col gap-3">
-                  <ToolInputPreview
-                    file={file}
-                    previewLayout="paged"
-                    fullPage
-                    className="flex min-h-0 flex-1 flex-col"
-                  />
-                  {awaitingStart ? <div className="shrink-0">{pendingStartPanel}</div> : null}
-                  {busy ? (
-                    <AiProcessingSteps progress={enhancedJob.progress ?? 50} label="Analyzing PDF…" className="shrink-0 py-4" />
-                  ) : null}
-                  {chatReady ? (
-                    <div className="flex shrink-0 items-center gap-2 rounded-xl border border-green-500/20 bg-green-50 px-3 py-2.5 text-sm text-green-700 dark:bg-green-950/20 dark:text-green-400">
-                      <Check className="h-4 w-4" />
-                      Chat is live — ask anything!
-                    </div>
-                  ) : null}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className={aiToolChatColumn}>
-            {!file ? (
-              <div className="flex flex-1 items-center justify-center p-8">
-                <div className="max-w-sm text-center">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
-                    <FileText className="h-8 w-8 text-primary" />
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground">Chat with any PDF</h2>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Upload a PDF or photo, preview it, then start chat — Google sign-in only when you continue.
-                  </p>
-                </div>
-              </div>
-            ) : awaitingStart ? (
-              <div className="flex flex-1 items-center justify-center p-8">
-                <div className="max-w-md text-center">
-                  <ToolInputPreview file={file} className="mx-auto mb-4 max-w-xs" />
-                  <p className="text-sm text-muted-foreground">
-                    Your file is loaded locally. Tap &quot;Start chat&quot; when you&apos;re ready — we&apos;ll only ask
-                    for Google sign-in at that step.
-                  </p>
-                </div>
-              </div>
-            ) : busy ? (
-              <div className="flex flex-1 items-center justify-center p-8">
-                <AiProcessingSteps progress={enhancedJob.progress ?? 50} label="Extracting text from your document…" />
-              </div>
-            ) : chatReady ? (
-              <div className={aiToolChatFill}>{chatPanel}</div>
-            ) : null}
-          </div>
+    if (file) {
+      return (
+        <AiFocusShell>
+          <AiCompactFileStep
+            file={file}
+            onContinue={() => void startChatSession()}
+            onRemove={startOver}
+            continueLabel="Start Processing"
+          />
+        </AiFocusShell>
+      );
+    }
+
+    return (
+      <AiFocusShell>
+        <div className="space-y-4">
+          <AiPrivacyBadge />
+          <h1 className="text-center text-xl font-bold sm:text-2xl">Chat with PDF</h1>
+          <p className="text-center text-sm text-muted-foreground">
+            Upload a PDF or photo — start chat when you&apos;re ready.
+          </p>
+          <DropZone
+            accept="application/pdf,.pdf,image/*,.jpg,.jpeg,.png,.webp"
+            multiple={false}
+            onFiles={handleFiles}
+            label="Drop PDF or photo"
+            sublabel="No signup to upload — sign in only when you start processing"
+          />
         </div>
-      </div>
+      </AiFocusShell>
+    );
+  })();
+
+  const mobileContent = (
+    <MobileToolLayout slug="chat-pdf" toolLabel="Chat with PDF" title="Chat with PDF">
+      {!file && !busy && !chatReady ? (
+        <div className="p-4">
+          <AiPrivacyBadge className="mb-3" />
+          <MobileFileUpload
+            onFiles={handleFiles}
+            acceptPdf
+            acceptImages
+            isPremium={isPremium}
+            disabled={busy}
+          />
+        </div>
+      ) : (
+        mainContent
+      )}
+    </MobileToolLayout>
   );
 
   return (
     <>
       <ToolPageSplit
-        desktop={desktopPanel}
-        mobile={
-          <MobileToolLayout slug="chat-pdf" toolLabel="Chat with PDF" title="Chat with PDF">
-            {mobilePanel}
-          </MobileToolLayout>
-        }
+        desktop={<div className="flex min-h-[calc(100vh-4rem)] flex-col">{mainContent}</div>}
+        mobile={mobileContent}
       />
       <SuggestCompressModal
         open={compressOpen}

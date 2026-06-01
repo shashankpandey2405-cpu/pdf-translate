@@ -1,44 +1,25 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
-import { ToolUploadedFileCard } from "@/components/tools/ux/ToolUploadedFileCard";
 import { ToolUploadSlot } from "@/components/tools/ux/ToolUploadSlot";
-import { TOOL_PRIMARY_BTN } from "@/components/tools/ux/toolUxClasses";
-import type { ToolWorkflowStepId } from "@/components/tools/ux/ToolWorkflowStepBar";
 import ToolSEO from "@/components/ToolSEO";
 import { ToolPageSplit } from "@/components/desktop/ToolPageSplit";
 import { ToolRenderErrorBoundary } from "@/components/desktop/ToolRenderErrorBoundary";
-import { DesktopMiniSidebar } from "@/components/desktop/DesktopMiniSidebar";
-import { MobilePostProcessPanel } from "@/components/mobile/MobilePostProcessPanel";
-import { safeDownloadBlob, shareBlob } from "@/lib/download/safeDownload";
-import { PdfScrollPreview } from "@/components/tools/PdfScrollPreview";
 import { MobileToolLayout } from "@/components/mobile/MobileToolLayout";
-import { MobileAiPreviewModal } from "@/components/mobile/MobileAiPreviewModal";
+import { safeDownloadBlob } from "@/lib/download/safeDownload";
 import { fetchEnhancedResultBlob } from "@/lib/enhanced/fetchResultBlob";
 import { useEnhancedJob } from "@/hooks/useEnhancedJob";
 import { usePremium } from "@/context/PremiumContext";
 import { SIGN_IN_REASON } from "@/lib/conversion/signInCopy";
 import { useAuthAction } from "@/hooks/useAuthAction";
 import { useAuthPrompt, stashAuthIntent } from "@/context/AuthPromptContext";
-import { DeferredStartPanel } from "@/components/conversion/DeferredStartPanel";
 import { stashPremiumFlow, premiumFlowToFile } from "@/lib/auth/premiumFlowRestore";
 import { usePremiumFlowRestore } from "@/hooks/usePremiumFlowRestore";
 import { getPDFPageCount } from "@/components/PDFThumbnail";
 import { toast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ProcessingStatus } from "@/components/processing/ProcessingStatus";
-import { ToolErrorState } from "@/components/tools/ToolErrorState";
-import {
-  Wand2,
-  Download,
-  RotateCcw,
-  Sparkles,
-  FileText,
-  Loader2,
-} from "lucide-react";
-import { SmartScanChatPanel } from "@/components/ai/smartscan/SmartScanChatPanel";
+import { Wand2 } from "lucide-react";
+import { SmartScanResultFocus } from "@/components/ai/smartscan/SmartScanResultFocus";
 import { pdfToWord, getWordFilename } from "@/tools/pdf-to-word/logic";
 import {
   isSmartScanSeoAlias,
@@ -48,6 +29,10 @@ import {
 } from "@/lib/ai/smartScanLimits";
 import { getLocalizedToolSeoBundle } from "@/lib/seo/localizedToolSeo";
 import { useTranslation } from "react-i18next";
+import { AiCompactFileStep } from "@/components/ai/workflow/AiCompactFileStep";
+import { AiProcessingFocus } from "@/components/ai/workflow/AiProcessingFocus";
+import { AiFocusShell } from "@/components/ai/workflow/AiFocusShell";
+import { ToolErrorState } from "@/components/tools/ToolErrorState";
 
 const ACCEPT_TYPES = ".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp";
 
@@ -59,7 +44,6 @@ export default function SmartScanAi() {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultName, setResultName] = useState("");
   const [jobId, setJobId] = useState<string | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [wordBusy, setWordBusy] = useState(false);
 
   const seoSlug = useMemo(() => {
@@ -68,7 +52,7 @@ export default function SmartScanAi() {
   }, [location]);
 
   const enhancedJob = useEnhancedJob("smart-scan-ai");
-  const { isPremium, isSignedIn } = usePremium();
+  const { isPremium } = usePremium();
   const seoBundle = getLocalizedToolSeoBundle(i18n.language, seoSlug);
   const maxPages = smartScanMaxPages(isPremium);
   const pagesToProcess =
@@ -78,6 +62,7 @@ export default function SmartScanAi() {
   const processFileRef = useRef<File | null>(null);
 
   const busy = enhancedJob.status === "queued" || enhancedJob.status === "processing";
+  const hasResult = Boolean(resultBlob);
 
   const runSmartScanWithFile = useCallback(
     async (f: File) => {
@@ -104,7 +89,7 @@ export default function SmartScanAi() {
           setJobId(result.jobId);
           const originalName = f.name.replace(/\.[^.]+$/, "");
           setResultName(`${originalName}_reconstructed.pdf`);
-          toast({ title: "Reconstruction complete", description: "Chat below to edit or ask AI about your document." });
+          toast({ title: "Scan complete", description: "Your reconstructed document is ready." });
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Processing failed";
@@ -167,16 +152,6 @@ export default function SmartScanAi() {
       },
     },
   );
-
-  useEffect(() => {
-    if (!resultBlob) {
-      setPreviewUrl(null);
-      return;
-    }
-    const url = URL.createObjectURL(resultBlob);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [resultBlob]);
 
   const handleRevisedPdf = useCallback((blob: Blob, name: string) => {
     setResultBlob(blob);
@@ -245,207 +220,119 @@ export default function SmartScanAi() {
     setPdfPageCount(null);
   };
 
-  const progressLabel = enhancedJob.progress <= 20
-    ? "Uploading document…"
-    : enhancedJob.progress <= 40
-      ? "AI is analyzing document structure…"
-      : enhancedJob.progress <= 70
-        ? "Detecting layout, text, tables…"
-        : enhancedJob.progress <= 90
-          ? "Reconstructing clean document…"
-          : "Finalizing…";
+  const progress =
+    enhancedJob.status === "queued" ? 20 : Math.min(95, enhancedJob.progress ?? 45);
 
-  const mobileWorkflowStep: ToolWorkflowStepId = !file
-    ? "upload"
-    : resultBlob
-      ? "done"
-      : busy
-        ? "process"
-        : "configure";
+  const processingSteps = [
+    "Analyzing document structure…",
+    "Detecting layout, text, and tables…",
+    "Reconstructing clean document…",
+  ];
 
-  const mobileProcessButton = !file ? null : resultBlob ? null : !busy ? (
-    <button type="button" onClick={() => void startSmartScan()} className={TOOL_PRIMARY_BTN}>
-      <Sparkles className="h-5 w-5" />
-      {isSignedIn ? "Start AI reconstruction" : "Continue with Google — Start scan"}
-    </button>
-  ) : null;
+  const mainContent = (() => {
+    if (busy) {
+      return (
+        <AiProcessingFocus
+          title="Smart Scan AI"
+          progress={progress}
+          steps={processingSteps}
+        />
+      );
+    }
 
-  const mobilePage = (
-      <MobileToolLayout
-        slug="smart-scan-ai"
-        toolLabel="Smart Scan AI"
-        title="Smart Scan AI"
-        workflowStep={mobileWorkflowStep}
-        processButton={mobileProcessButton}
-        postProcessPanel={
-          resultBlob ? (
-            <div className="space-y-3">
-              <MobilePostProcessPanel
-                currentSlug="smart-scan-ai"
-                onDownload={downloadResult}
-                onShare={() => void shareBlob(resultBlob, resultName || "reconstructed.pdf")}
-                onProcessAnother={startOver}
-                downloadLabel="Download PDF"
-              />
-              <Button variant="outline" disabled={wordBusy} onClick={() => void exportWord()} className="w-full gap-2">
-                {wordBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
-                Export Word
-              </Button>
-            </div>
-          ) : undefined
-        }
-      >
-        {!file ? (
-          <>
-            <ToolUploadSlot
-              files={[]}
-              onFiles={handleFiles}
-              accept={ACCEPT_TYPES}
-              multiple={false}
-              label="Upload photo or PDF"
-              sublabel="Scans, photos, screenshots, handwriting"
-            />
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {["JPG", "PNG", "WEBP", "PDF", "Scans", "Photos"].map((tag) => (
-                <span key={tag} className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </>
-        ) : resultBlob ? (
-          <div className="flex flex-1 flex-col gap-4 p-3">
-            <MobileAiPreviewModal preview={{ kind: "blob", blob: resultBlob, filename: resultName }} />
-            <SmartScanChatPanel jobId={jobId} baseFilename={resultName} onRevisedPdf={handleRevisedPdf} className="min-h-[360px] flex-1" />
-          </div>
-        ) : (
+    if (hasResult && file) {
+      return (
+        <SmartScanResultFocus
+          fileName={file.name}
+          pageCount={pdfPageCount}
+          jobId={jobId}
+          baseFilename={resultName}
+          onRevisedPdf={handleRevisedPdf}
+          onDownload={downloadResult}
+          onExportWord={() => void exportWord()}
+          wordBusy={wordBusy}
+          onStartOver={startOver}
+        />
+      );
+    }
+
+    if (file) {
+      return (
+        <AiFocusShell>
           <div className="space-y-4">
-            <ToolUploadedFileCard file={file} onRemove={startOver} className="border-violet-500/25" />
-            {pagesToProcess !== null && pdfPageCount !== null ? (
+            <AiCompactFileStep
+              file={file}
+              onContinue={() => void startSmartScan()}
+              onRemove={startOver}
+              continueLabel="Start Scan"
+            />
+            {pagesToProcess !== null && pdfPageCount !== null && pdfPageCount > maxPages ? (
               <p className="text-center text-xs text-muted-foreground">
-                {pagesToProcess} of {pdfPageCount} page{pdfPageCount === 1 ? "" : "s"} selected
+                Processing {pagesToProcess} of {pdfPageCount} pages on your plan.
               </p>
             ) : null}
-            {busy && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 rounded-xl border border-violet-500/20 bg-violet-50 px-3 py-2.5 text-sm dark:bg-violet-950/20">
-                  <span className="text-violet-600" aria-hidden>✨</span>
-                  <span className="text-violet-700 dark:text-violet-300">{progressLabel}</span>
-                </div>
-                <div className="overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="h-2 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all duration-500"
-                    style={{ width: `${enhancedJob.progress}%` }}
-                  />
-                </div>
-              </div>
-            )}
-            {!busy && !resultBlob && (
-              <DeferredStartPanel
-                variant="ai"
-                guestCta="Continue with Google — Start scan"
-                signedInCta="Start AI reconstruction"
-                onStart={() => void startSmartScan()}
-                isSignedIn={isSignedIn}
+            {enhancedJob.error ? (
+              <ToolErrorState
+                title="Smart Scan failed"
+                message={enhancedJob.error}
+                onRetry={() => void startSmartScan()}
+                className="py-4"
               />
-            )}
-            {!busy && enhancedJob.error ? (
-              <ToolErrorState title="Smart Scan failed" message={enhancedJob.error} onRetry={() => void startSmartScan()} className="py-6" />
             ) : null}
           </div>
-        )}
-      </MobileToolLayout>
-  );
+        </AiFocusShell>
+      );
+    }
 
-  const desktopPage = (
-      <div className="hidden lg:flex h-[calc(100dvh-4rem)] overflow-hidden">
-        <DesktopMiniSidebar activeSlug="smart-scan-ai" />
-        {!file ? (
-          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-            <div className="flex flex-1 flex-col items-center justify-center p-8">
-              <div className="w-full max-w-xl">
-                <div className="mb-6 flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20">
-                    <Wand2 className="h-5 w-5 text-violet-600" />
-                  </div>
-                  <div>
-                    <h1 className="text-xl font-bold">Smart Scan AI</h1>
-                    <p className="text-sm text-muted-foreground">Reconstruct photos & scans into editable PDFs</p>
-                  </div>
-                </div>
-                <ToolUploadSlot
-                  files={[]}
-                  onFiles={handleFiles}
-                  accept={ACCEPT_TYPES}
-                  multiple={false}
-                  label="Upload photo or PDF"
-                  sublabel="JPG, PNG, WEBP, PDF, scans, handwriting"
-                />
-              </div>
+    return (
+      <AiFocusShell>
+        <div className="space-y-5">
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20">
+              <Wand2 className="h-5 w-5 text-violet-600" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">Smart Scan AI</h1>
+              <p className="text-sm text-muted-foreground">Reconstruct photos & scans into editable PDFs</p>
             </div>
           </div>
-        ) : resultBlob ? (
-          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-5 py-3">
-              <p className="truncate text-sm font-medium">{resultName}</p>
-              <div className="flex shrink-0 gap-2">
-                <Button onClick={downloadResult} className="h-9 gap-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-xs font-bold">
-                  <Download className="h-3.5 w-3.5" />
-                  Download
-                </Button>
-                <Button variant="outline" disabled={wordBusy} onClick={() => void exportWord()} className="h-9 rounded-xl text-xs">
-                  {wordBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileText className="h-3.5 w-3.5" />}
-                  Word
-                </Button>
-                <Button variant="outline" onClick={startOver} className="h-9 rounded-xl text-xs">
-                  <RotateCcw className="h-3.5 w-3.5" />
-                  New scan
-                </Button>
-              </div>
-            </div>
-            <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_min(380px,34%)]">
-              <div className="flex min-h-0 flex-col overflow-hidden bg-muted/15 p-3">
-                <PdfScrollPreview
-                  key={resultName + String(resultBlob.size)}
-                  blob={resultBlob}
-                  filename={resultName}
-                  layout="paged"
-                  fullPage
-                  className="h-full min-h-0"
-                  maxWidth={720}
-                />
-              </div>
-              <SmartScanChatPanel jobId={jobId} baseFilename={resultName} onRevisedPdf={handleRevisedPdf} className="h-full min-h-0 rounded-none border-0 border-l border-border" />
-            </div>
+          <ToolUploadSlot
+            files={[]}
+            onFiles={handleFiles}
+            accept={ACCEPT_TYPES}
+            multiple={false}
+            label="Upload photo or PDF"
+            sublabel="JPG, PNG, WEBP, PDF, scans, handwriting"
+          />
+          <div className="flex flex-wrap justify-center gap-1.5">
+            {["JPG", "PNG", "WEBP", "PDF", "Scans", "Photos"].map((tag) => (
+              <span key={tag} className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium">
+                {tag}
+              </span>
+            ))}
           </div>
-        ) : (
-          <div className="flex min-h-0 flex-1 flex-col items-center justify-center p-8">
-            <div className="w-full max-w-md space-y-5 text-center">
-              <p className="truncate text-sm font-semibold">{file.name}</p>
-              {busy ? (
-                <div className="space-y-3 text-left">
-                  <ProcessingStatus type="ai" label={progressLabel} />
-                  <div className="overflow-hidden rounded-full bg-muted">
-                    <div className="h-2 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all" style={{ width: `${enhancedJob.progress}%` }} />
-                  </div>
-                </div>
-              ) : enhancedJob.error ? (
-                <ToolErrorState title="Smart Scan failed" message={enhancedJob.error} onRetry={() => void startSmartScan()} />
-              ) : (
-                <>
-                  <Button onClick={() => void startSmartScan()} className="h-12 w-full gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-base font-bold">
-                    <Sparkles className="h-5 w-5" />
-                    {isSignedIn ? "Start AI reconstruction" : "Continue with Google — Start scan"}
-                  </Button>
-                  <button type="button" onClick={startOver} className="text-xs text-muted-foreground underline">
-                    Choose a different file
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      </AiFocusShell>
+    );
+  })();
+
+  const mobileContent = (
+    <MobileToolLayout slug="smart-scan-ai" toolLabel="Smart Scan AI" title="Smart Scan AI">
+      {!file && !busy && !hasResult ? (
+        <div className="p-4">
+          <ToolUploadSlot
+            files={[]}
+            onFiles={handleFiles}
+            accept={ACCEPT_TYPES}
+            multiple={false}
+            label="Upload photo or PDF"
+            sublabel="Scans, photos, screenshots, handwriting"
+          />
+        </div>
+      ) : (
+        mainContent
+      )}
+    </MobileToolLayout>
   );
 
   return (
@@ -462,7 +349,10 @@ export default function SmartScanAi() {
         keywords={seoBundle?.keywords}
         slug={seoSlug}
       />
-      <ToolPageSplit desktop={desktopPage} mobile={mobilePage} />
+      <ToolPageSplit
+        desktop={<div className="flex min-h-[calc(100vh-4rem)] flex-col">{mainContent}</div>}
+        mobile={mobileContent}
+      />
     </ToolRenderErrorBoundary>
   );
 }
