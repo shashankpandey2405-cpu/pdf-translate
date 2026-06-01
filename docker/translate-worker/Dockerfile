@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
     && rm -rf /var/lib/apt/lists/*
 
 COPY package.json package-lock.json ./
-# Do not set NODE_ENV=production before install (Railpack omits dev peers and breaks npm ci).
-RUN npm ci --legacy-peer-deps --ignore-scripts
+# npm install (not ci) — lockfile optional peer deps differ on Linux builders.
+RUN npm install --legacy-peer-deps --ignore-scripts
 
 COPY . .
 
