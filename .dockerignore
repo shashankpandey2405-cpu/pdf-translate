@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+.cursor
+reports
+playwright-report
+test-results
+coverage
+terminals
+backend-service

@@ -1,6 +1,6 @@
 # Used by Railway translate-worker (and ai worker): run queue consumer only, not Next.js build.
 [variables]
-NIXPACKS_NODE_VERSION = "20"
+NIXPACKS_NODE_VERSION = "22"
 
 [phases.install]
 cmds = ["npm ci --legacy-peer-deps"]
