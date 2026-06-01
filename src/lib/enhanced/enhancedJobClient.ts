@@ -82,6 +82,9 @@ export type CreditEstimateResponse = {
   estimateHigh: number;
   canProceed: boolean;
   useTrial?: boolean;
+  maxPages?: number;
+  maxFileBytes?: number;
+  limitMessage?: string;
   aiTrial?: { trialRemaining: number };
   credits?: { available: number; balance: number; monthlyGrant?: number };
 };
